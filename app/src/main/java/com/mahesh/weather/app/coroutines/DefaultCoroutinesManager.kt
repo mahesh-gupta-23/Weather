@@ -1,21 +1,20 @@
 package com.mahesh.weather.app.coroutines
 
-import android.provider.Contacts
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryCatch
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryCatchFinally
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryFinally
-import android.support.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 open class DefaultCoroutinesManager : CoroutinesManager {
 
-    protected val coroutinesJobs: MutableList<Job> = mutableListOf()
+    private val coroutinesJobs: MutableList<Job> = mutableListOf()
 
     @Synchronized
     override fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
-
-        val job: Job = launch(Contacts.Intents.UI) { block() }
+        val job: Job = CoroutineScope(Dispatchers.Main).launch { block() }
         coroutinesJobs.add(job)
         job.invokeOnCompletion { coroutinesJobs.remove(job) }
     }

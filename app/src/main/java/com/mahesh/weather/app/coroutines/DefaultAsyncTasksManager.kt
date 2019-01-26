@@ -3,17 +3,17 @@ package com.mahesh.weather.app.coroutines
 import android.support.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 
 open class DefaultAsyncTasksManager : AsyncTasksManager {
 
-    protected val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
+    private val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
 
     @CallSuper
     @Synchronized
-    override suspend fun <T> asyncCustom(block: suspend CoroutineScope.() -> T): Deferred<T> {
-        val deferred: Deferred<T> = async(CommonPool) { block() }
+    override suspend fun <T> async(block: suspend CoroutineScope.() -> T): Deferred<T> {
+        val deferred: Deferred<T> = CoroutineScope(Dispatchers.IO).async { block() }
         deferredObjects.add(deferred)
         deferred.invokeOnCompletion { deferredObjects.remove(deferred) }
         return deferred
@@ -22,7 +22,7 @@ open class DefaultAsyncTasksManager : AsyncTasksManager {
     @CallSuper
     @Synchronized
     override suspend fun <T> asyncAwait(block: suspend CoroutineScope.() -> T): T {
-        return asyncCustom(block).await()
+        return async(block).await()
     }
 
     @CallSuper
