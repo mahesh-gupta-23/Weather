@@ -1,0 +1,37 @@
+dependencies {
+
+    implementation deps.core.appcompat
+    implementation deps.core.constraintLayout
+    implementation deps.core.lifecycle
+    implementation deps.core.recyclerView
+    implementation deps.core.material
+    implementation deps.core.kotlinStdLib
+
+    // Testing dependencies
+    androidTestImplementation deps.test.core
+    androidTestImplementation deps.test.espresso
+    androidTestImplementation deps.test.espressoCore
+    androidTestImplementation deps.test.espressoIntents
+    testImplementation deps.test.junit
+
+    // Dagger
+    implementation deps.dagger.android
+    implementation deps.dagger.androidSupport
+    annotationProcessor deps.dagger.androidProcessor
+//    kapt deps.dagger.compiler
+
+    // Retrofit
+    implementation deps.retrofit.core
+    implementation deps.retrofit.gsonConverter
+
+    // okhttp
+    implementation deps.okhttp.core
+
+    // Coroutines
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+
+    //Chuck
+    implementation deps.chuck.debug
+    implementation deps.chuck.release
+}

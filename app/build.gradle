@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion deps.build.compileSdkVersion
     dataBinding {
         enabled = true
     }
     defaultConfig {
         applicationId "com.mahesh.weather"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.targetSdkVersion
+        minSdkVersion deps.build.minSdkVersion
+        targetSdkVersion deps.build.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 1
         versionName "1.0"
@@ -36,38 +36,4 @@ android {
     }
 }
 
-dependencies {
-
-    implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
-    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
-    implementation "com.google.android.material:material:$rootProject.materialVersion"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.kotlinVersion"
-
-    // Dagger
-    implementation "com.google.dagger:dagger-android:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-
-    // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
-
-    // okhttp
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
-
-    // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesVersion"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesVersion"
-
-    // Testing dependencies
-    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$rootProject.espressoVersion"
-    testImplementation "junit:junit:$rootProject.junitVersion"
-
-}
+apply from: 'app-dependencies.gradle'
