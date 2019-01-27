@@ -2,7 +2,8 @@ package com.mahesh.weather.app
 
 import android.app.Application
 import com.mahesh.weather.app.coroutines.di.CoroutinesModule
-import com.mahesh.weather.service.di.NetworkModules
+import com.mahesh.weather.forecast.di.ForecastModule
+import com.mahesh.weather.service.di.NetworkModule
 import org.koin.android.ext.android.startKoin
 
 class WeatherApplication : Application() {
@@ -25,6 +26,6 @@ class WeatherApplication : Application() {
     /**
      * Provides List of all the modules
      */
-    private val weatherAppModules = listOf(CoroutinesModule, NetworkModules)
+    private val weatherAppModules = listOf(CoroutinesModule, NetworkModule, ForecastModule)
 
 }

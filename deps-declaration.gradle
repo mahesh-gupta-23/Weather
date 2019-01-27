@@ -67,7 +67,8 @@ def coroutines = [
 deps.coroutines = coroutines
 
 def koin = [
-        android: "org.koin:koin-android:$versions.koin"
+        android: "org.koin:koin-android:$versions.koin",
+        scope  : "org.koin:koin-android-scope:$versions.koin"
 ]
 deps.koin = koin
 

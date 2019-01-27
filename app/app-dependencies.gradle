@@ -27,4 +27,5 @@ dependencies {
 
     //koin
     implementation deps.koin.android
+    implementation deps.koin.scope
 }
