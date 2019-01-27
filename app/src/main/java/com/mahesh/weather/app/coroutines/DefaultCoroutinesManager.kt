@@ -7,8 +7,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.koin.standalone.KoinComponent
 
-open class DefaultCoroutinesManager : CoroutinesManager {
+open class DefaultCoroutinesManager : CoroutinesManager, KoinComponent {
 
     private val coroutinesJobs: MutableList<Job> = mutableListOf()
 

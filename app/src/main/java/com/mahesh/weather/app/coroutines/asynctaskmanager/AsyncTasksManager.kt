@@ -1,4 +1,4 @@
-package com.mahesh.weather.app.coroutines
+package com.mahesh.weather.app.coroutines.asynctaskmanager
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred

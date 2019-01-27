@@ -14,12 +14,6 @@ dependencies {
     androidTestImplementation deps.test.espressoIntents
     testImplementation deps.test.junit
 
-    // Dagger
-    implementation deps.dagger.android
-    implementation deps.dagger.androidSupport
-    annotationProcessor deps.dagger.androidProcessor
-//    kapt deps.dagger.compiler
-
     // Retrofit
     implementation deps.retrofit.core
     implementation deps.retrofit.gsonConverter
@@ -31,7 +25,6 @@ dependencies {
     implementation deps.coroutines.core
     implementation deps.coroutines.android
 
-    //Chuck
-    implementation deps.chuck.debug
-    implementation deps.chuck.release
+    //koin
+    implementation deps.koin.android
 }

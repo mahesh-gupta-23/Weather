@@ -1,12 +1,13 @@
-package com.mahesh.weather.app.coroutines
+package com.mahesh.weather.app.coroutines.asynctaskmanager
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import org.koin.standalone.KoinComponent
 
-open class DefaultAsyncTasksManager : AsyncTasksManager {
+open class DefaultAsyncTasksManager : AsyncTasksManager, KoinComponent {
 
     private val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
 

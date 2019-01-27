@@ -8,7 +8,6 @@ def versions = [
         coroutines         : "1.1.0",
         espresso           : "3.1.1",
         gradle             : "3.2.1",
-        dagger             : "2.20",
         retrofit           : "2.3.0",
         okhttp             : "3.9.1",
         junit              : "4.12",
@@ -16,7 +15,8 @@ def versions = [
         material           : "1.0.0",
         recyclerView       : "1.0.0",
         supportLibrary     : "1.0.2",
-        chuck              : "1.1.0"
+        chuck              : "1.1.0",
+        koin               : "1.0.2"
 ]
 
 def deps = [:]
@@ -36,7 +36,7 @@ def core = [
         lifecycle       : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
         recyclerView    : "androidx.recyclerview:recyclerview:$versions.recyclerView",
         material        : "com.google.android.material:material:$versions.material",
-        kotlinStdLib          : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+        kotlinStdLib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
 ]
 deps.core = core
 
@@ -48,14 +48,6 @@ def test = [
         junit          : "junit:junit:$versions.junit"
 ]
 deps.test = test
-
-def dagger = [
-        android         : "com.google.dagger:dagger-android:$versions.dagger",
-        androidSupport  : "com.google.dagger:dagger-android-support:$versions.dagger",
-        androidProcessor: "com.google.dagger:dagger-android-processor:$versions.dagger",
-        compiler        : "com.google.dagger:dagger-compiler:$versions.dagger"
-]
-deps.dagger = dagger
 
 def retrofit = [
         core         : "com.squareup.retrofit2:retrofit:$versions.retrofit",
@@ -74,10 +66,9 @@ def coroutines = [
 ]
 deps.coroutines = coroutines
 
-def chuck = [
-        debug  : "com.readystatesoftware.chuck:library:$versions.chuck",
-        release: "com.readystatesoftware.chuck:library-no-op:$versions.chuck"
+def koin = [
+        android: "org.koin:koin-android:$versions.koin"
 ]
-deps.chuck = chuck
+deps.koin = koin
 
 ext.deps = deps
