@@ -8,13 +8,13 @@ import com.mahesh.weather.forecast.adapter.ForecastAdapter
 import org.koin.dsl.module.module
 
 val ForecastModule = module {
-    scope(Properties.MAIN_SESSION) { ForecastFragment() }
+    scope(Properties.MAIN_ACTIVITY_SESSION) { ForecastFragment() }
     factory { ForecastAdapter(get(), get()) }
     factory { ForecastModelInteractor() as ForecastContract.ModelInteractor }
-    scope(Properties.FORECAST_SESSION) { ForecastPresenter(get() as ForecastFragment, get()) }
+    scope(Properties.FORECAST_FRAGMENT_SESSION) { ForecastPresenter(get() as ForecastFragment, get()) }
 }
 
 object Properties {
-    const val MAIN_SESSION = "MAIN_SESSION"
-    const val FORECAST_SESSION = "FORECAST_SESSION"
+    const val MAIN_ACTIVITY_SESSION = "MAIN_ACTIVITY_SESSION"
+    const val FORECAST_FRAGMENT_SESSION = "FORECAST_FRAGMENT_SESSION"
 }

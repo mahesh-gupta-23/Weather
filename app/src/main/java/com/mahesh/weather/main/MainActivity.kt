@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        bindScope(getOrCreateScope(Properties.MAIN_SESSION))
+        bindScope(getOrCreateScope(Properties.MAIN_ACTIVITY_SESSION))
 
         supportFragmentManager.findFragmentById(R.id.content_frame)
                 as ForecastFragment? ?: forecastFragment.also {

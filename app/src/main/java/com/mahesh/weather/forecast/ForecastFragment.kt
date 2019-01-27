@@ -28,7 +28,7 @@ class ForecastFragment : Fragment(), ForecastContract.View, KoinComponent {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
-        bindScope(getOrCreateScope(Properties.FORECAST_SESSION))
+        bindScope(getOrCreateScope(Properties.FORECAST_FRAGMENT_SESSION))
 
         Log.d("Forecast-Tag", "" + this)
         Log.d("Forecast-Tag", "" + get() as ForecastFragment)
