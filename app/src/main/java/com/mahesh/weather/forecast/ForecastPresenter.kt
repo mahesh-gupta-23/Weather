@@ -8,6 +8,10 @@ import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 class ForecastPresenter : BasePresenterImpl<ForecastContract.View>(),
     ForecastContract.Presenter<ForecastContract.View>, ForecastContract.AdapterPresenter {
 
+    override fun onInjectDependencies() {
+        Log.d(TAG, "onInjectDependencies")
+    }
+
     override fun onResume() {
         Log.d(TAG, "onResume")
     }

@@ -11,6 +11,9 @@ abstract class BasePresenterImpl<View : BaseView> : ViewModel(), BasePresenter<V
     private var viewLifecycle: Lifecycle? = null
     private val isViewResumed = AtomicBoolean(false)
 
+    init {
+        injectDependencies()
+    }
 
     protected fun injectDependencies() {
         onInjectDependencies()
