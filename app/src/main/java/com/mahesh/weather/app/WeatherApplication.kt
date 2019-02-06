@@ -1,31 +1,31 @@
 package com.mahesh.weather.app
 
+import android.app.Activity
 import android.app.Application
-import com.mahesh.weather.app.coroutines.di.CoroutinesModule
-import com.mahesh.weather.forecast.di.ForecastModule
-import com.mahesh.weather.service.di.NetworkModule
-import org.koin.android.ext.android.startKoin
+import com.mahesh.weather.app.di.DaggerAppComponent
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import javax.inject.Inject
 
-class WeatherApplication : Application() {
+const val TAG: String = "Forecast-Tag"
 
-    companion object {
-        private lateinit var application: WeatherApplication
+class WeatherApplication : Application(), HasActivityInjector {
 
-        fun get(): WeatherApplication = application
-    }
+    @Inject
+    internal lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
 
-        application = this
-
-        //Start Koin
-        startKoin(this, weatherAppModules)
+        DaggerAppComponent.builder()
+            .application(this)
+            .build()
+            .inject(this)
     }
 
-    /**
-     * Provides List of all the modules
-     */
-    private val weatherAppModules = listOf(CoroutinesModule, NetworkModule, ForecastModule)
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return activityDispatchingAndroidInjector
+    }
 
 }

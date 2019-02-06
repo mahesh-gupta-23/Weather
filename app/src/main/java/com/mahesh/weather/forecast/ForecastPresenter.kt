@@ -1,21 +1,15 @@
 package com.mahesh.weather.forecast
 
 import android.util.Log
+import com.mahesh.weather.app.TAG
+import com.mahesh.weather.app.presenter.BasePresenterImpl
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
-import org.koin.standalone.KoinComponent
 
-class ForecastPresenter(
-    var view: ForecastContract.View?,
-    val modelInteractor: ForecastContract.ModelInteractor
-) : ForecastContract.Presenter, ForecastContract.AdapterPresenter, KoinComponent {
+class ForecastPresenter : BasePresenterImpl<ForecastContract.View>(),
+    ForecastContract.Presenter<ForecastContract.View>, ForecastContract.AdapterPresenter {
 
-    override fun resume(view: ForecastContract.View?) {
-        this.view = view
-        Log.d("Forecast-Tag", "" + view)
-    }
-
-    override fun pause() {
-        view = null
+    override fun onResume() {
+        Log.d(TAG, "onResume")
     }
 
     override fun getAdapterEntity(position: Int): ForecastAdapterModel {

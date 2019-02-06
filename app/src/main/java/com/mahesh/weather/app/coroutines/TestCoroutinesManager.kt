@@ -5,9 +5,8 @@ import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryCatchFinal
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryFinally
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
-import org.koin.standalone.KoinComponent
 
-open class TestCoroutinesManager : CoroutinesManager, KoinComponent {
+open class TestCoroutinesManager : CoroutinesManager {
 
     override fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
         runBlocking { block() }

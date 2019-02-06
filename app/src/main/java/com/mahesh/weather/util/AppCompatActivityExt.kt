@@ -11,9 +11,12 @@ import androidx.fragment.app.FragmentTransaction
  * The `fragment` is added to the container view with id `frameId`. The operation is
  * performed by the `fragmentManager`.
  */
-fun AppCompatActivity.replaceFragmentInActivity(fragment: Fragment, @IdRes frameId: Int) {
+fun AppCompatActivity.replaceFragmentInActivity(
+    fragment: Fragment, @IdRes frameId: Int,
+    tag: String? = null
+) {
     supportFragmentManager.transact {
-        replace(frameId, fragment)
+        replace(frameId, fragment, tag)
     }
 }
 

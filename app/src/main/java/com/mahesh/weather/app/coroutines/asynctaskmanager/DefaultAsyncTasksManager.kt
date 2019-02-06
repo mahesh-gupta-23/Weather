@@ -5,9 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import org.koin.standalone.KoinComponent
 
-open class DefaultAsyncTasksManager : AsyncTasksManager, KoinComponent {
+open class DefaultAsyncTasksManager : AsyncTasksManager {
 
     private val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
 

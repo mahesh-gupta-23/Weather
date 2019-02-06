@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -38,6 +39,4 @@ android {
 
 apply from: 'app-dependencies.gradle'
 
-dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-}
+

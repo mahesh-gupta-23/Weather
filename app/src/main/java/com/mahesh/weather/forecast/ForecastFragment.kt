@@ -2,25 +2,27 @@ package com.mahesh.weather.forecast
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.mahesh.weather.R
 import com.mahesh.weather.databinding.FragmentForecastBinding
-import com.mahesh.weather.forecast.di.Properties
-import org.koin.android.ext.android.get
-import org.koin.android.ext.android.inject
-import org.koin.android.scope.ext.android.bindScope
-import org.koin.android.scope.ext.android.getOrCreateScope
-import org.koin.standalone.KoinComponent
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-class ForecastFragment : Fragment(), ForecastContract.View, KoinComponent {
+const val FORECAST_FRAGMENT_TAG = "FORECAST_FRAGMENT"
+
+class ForecastFragment : DaggerFragment(), ForecastContract.View {
 
     private lateinit var binding: FragmentForecastBinding
-    private val presenter: ForecastContract.Presenter by inject<ForecastPresenter>()
+
+    @Inject
+    lateinit var viewModelProvider: ViewModelProvider.Factory
+
+    private lateinit var presenter: ForecastContract.Presenter<ForecastContract.View>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,16 +30,15 @@ class ForecastFragment : Fragment(), ForecastContract.View, KoinComponent {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
-        bindScope(getOrCreateScope(Properties.FORECAST_FRAGMENT_SESSION))
+        setupPresenter()
 
-        Log.d("Forecast-Tag", "" + this)
-        Log.d("Forecast-Tag", "" + get() as ForecastFragment)
         return binding.root
     }
 
-    override fun onResume() {
-        presenter.resume(get() as ForecastFragment)
-        super.onResume()
+    override fun setupPresenter() {
+        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java)
+        presenter.attachView(this, lifecycle)
+        lifecycle.addObserver(presenter)
     }
 
 }

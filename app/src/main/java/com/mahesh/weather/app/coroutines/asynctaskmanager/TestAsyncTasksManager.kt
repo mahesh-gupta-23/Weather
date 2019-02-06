@@ -4,9 +4,8 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
-import org.koin.standalone.KoinComponent
 
-open class TestAsyncTasksManager : AsyncTasksManager, KoinComponent {
+open class TestAsyncTasksManager : AsyncTasksManager {
 
     override suspend fun <T> async(block: suspend CoroutineScope.() -> T): Deferred<T> {
         return CompletableDeferred(runBlocking { block() })
