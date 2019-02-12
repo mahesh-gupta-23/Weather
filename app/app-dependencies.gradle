@@ -7,12 +7,16 @@ dependencies {
     implementation deps.core.material
     implementation deps.core.kotlinStdLib
 
+    //Location
+    implementation deps.playServices.location
+
     // Testing dependencies
     androidTestImplementation deps.test.core
     androidTestImplementation deps.test.espresso
     androidTestImplementation deps.test.espressoCore
     androidTestImplementation deps.test.espressoIntents
     testImplementation deps.test.junit
+
 
     // Dagger
     implementation deps.dagger.android

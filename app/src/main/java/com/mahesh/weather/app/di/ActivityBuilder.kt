@@ -15,5 +15,5 @@ abstract class ActivityBuilder {
             ForecastFragmentProvider::class
         ]
     )
-    internal abstract fun bindMainActivity(): MainActivity
+    abstract fun bindMainActivity(): MainActivity
 }

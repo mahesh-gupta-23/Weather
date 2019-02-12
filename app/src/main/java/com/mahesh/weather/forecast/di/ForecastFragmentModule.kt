@@ -10,7 +10,7 @@ import dagger.Provides
 class ForecastFragmentModule {
 
     @Provides
-    internal fun forecaseViewModelProvider(forecastPresenter: ForecastPresenter):
+    internal fun forecastViewModelProvider(forecastPresenter: ForecastPresenter):
             ViewModelProvider.Factory {
         return ViewModelProviderFactory(forecastPresenter)
     }

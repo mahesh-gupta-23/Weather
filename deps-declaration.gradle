@@ -1,23 +1,21 @@
 ext.deps = [:]
 
 def versions = [
-        androidGradlePlugin: "3.3.0",
+        androidGradlePlugin: '3.3.1',
         kotlin             : "1.3.20",
         constraintLayout   : "1.1.3",
+        supportLibrary     : "1.0.2",
+        location           : "16.0.0",
         coreTesting        : "2.0.0",
         coroutines         : "1.1.0",
         espresso           : "3.1.1",
-        gradle             : "3.2.1",
         dagger             : "2.20",
         retrofit           : "2.3.0",
         okhttp             : "3.9.1",
         junit              : "4.12",
         lifecycle          : "2.0.0",
         material           : "1.0.0",
-        recyclerView       : "1.0.0",
-        supportLibrary     : "1.0.2",
-        chuck              : "1.1.0",
-        koin               : "1.0.2"
+        recyclerView       : "1.0.0"
 ]
 
 def deps = [:]
@@ -40,6 +38,11 @@ def core = [
         kotlinStdLib    : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
 ]
 deps.core = core
+
+def playServices = [
+        location: "com.google.android.gms:play-services-location:$versions.location"
+]
+deps.playServices = playServices
 
 def test = [
         core           : "androidx.arch.core:core-testing:$versions.coreTesting",
