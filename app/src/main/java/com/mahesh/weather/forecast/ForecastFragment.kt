@@ -1,23 +1,21 @@
 package com.mahesh.weather.forecast
 
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.mahesh.weather.R
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.databinding.FragmentForecastBinding
+import com.mahesh.weather.helper.LocationHelper
+import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -32,7 +30,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
 
     private lateinit var presenter: ForecastContract.Presenter<ForecastContract.View>
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var locationHelper: LocationHelper? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +39,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
         setupPresenter()
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        locationHelper = LocationHelper(activity!!)
 
         getLocation()
 
@@ -50,20 +47,28 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION) !==
-            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_COARSE_LOCATION) !== PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            Log.d(TAG, "" + location)
-        }
+        locationHelper?.getLocation(object : LocationHelper.Callback {
+            override fun onLocationFetched(location: Location) {
+                Log.d(TAG, "location callback $location")
+            }
+        })
     }
 
     override fun setupPresenter() {
         presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java)
         presenter.attachView(this, lifecycle)
         lifecycle.addObserver(presenter)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        locationHelper?.onRequestPermissionsResult(requestCode, permissions = permissions, grantResults = grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            locationHelper?.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
 }

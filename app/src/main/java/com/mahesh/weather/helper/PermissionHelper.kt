@@ -11,18 +11,21 @@ import android.provider.Settings
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.util.REQUEST_PERMISSION_CODE
 import java.util.*
+import kotlin.collections.ArrayList
 
-class PermissionHelper(
-    private val activityView: AppCompatActivity,
-    private val permissionListener: PermissionsListener
-) {
+class PermissionHelper(private val activityView: FragmentActivity) {
 
     private val deniedPermissions: MutableList<String> = mutableListOf()
     private val granted: MutableList<String> = mutableListOf()
+    private var permissionListener: PermissionsListener? = null
+
+    fun setPermissionListener(permissionListener: PermissionsListener) {
+        this.permissionListener = permissionListener
+    }
 
     interface PermissionsListener {
         fun onPermissionGranted()
@@ -42,7 +45,7 @@ class PermissionHelper(
     /**
      * Request permissions.
      *
-     * @param permissions  -String Array of permissions to request, for eg: new String[]{PermissionManager.CAMERA} or multiple new String[]{PermissionManger.CAMERA, PermissionManager.CONTACTS}
+     * @param permissions - List of String of permissions to request, for eg: List<String>{PermissionManager.CAMERA} or multiple List<String>{PermissionManger.CAMERA, PermissionManager.CONTACTS}
      */
     fun requestPermission(@NonNull permissions: List<String>) {
         deniedPermissions.clear()
@@ -63,10 +66,10 @@ class PermissionHelper(
             if (!allPermissionGranted) {
                 activityView.requestPermissions(deniedPermissions.toTypedArray(), REQUEST_PERMISSION_CODE)
             } else {
-                permissionListener.onPermissionGranted()
+                permissionListener?.onPermissionGranted()
             }
         } else {
-            permissionListener.onPermissionGranted()
+            permissionListener?.onPermissionGranted()
         }
     }
 
@@ -77,7 +80,7 @@ class PermissionHelper(
      * @param grantResults
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
+    fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<out String>, @NonNull grantResults: IntArray) {
         val permissionName = StringBuilder()
         var requestPermissionRationale = false
         granted.clear()
@@ -89,13 +92,12 @@ class PermissionHelper(
                 if (activityView.shouldShowRequestPermissionRationale(permission)) {
                     requestPermissionRationale = true
                 }
-                permissionName.append(",")
+                permissionName.append(", ")
                 permissionName.append(PermissionHelper.getNameFromPermission(permission))
             }
         }
         var res = permissionName.toString()
         deniedPermissions.removeAll(granted)
-
         if (deniedPermissions.size > 0) {
             res = res.substring(1)
             if (requestPermissionRationale) {
@@ -104,7 +106,7 @@ class PermissionHelper(
                 goToSettingsAlertDialog(activityView, res)
             }
         } else {
-            permissionListener.onPermissionGranted()
+            permissionListener?.onPermissionGranted()
         }
     }
 
@@ -120,25 +122,22 @@ class PermissionHelper(
                 intent.data = Uri.parse("package:" + view?.packageName)
                 view?.startActivity(intent)
             }
-            .setNegativeButton(
-                "NO"
-            ) { _, _ ->
-                permissionListener.onPermissionRejectedManyTimes(deniedPermissions)
+            .setNegativeButton("NO") { _, _ ->
+                permissionListener?.onPermissionRejectedManyTimes(
+                    ArrayList<String>(
+                        deniedPermissions
+                    )
+                )
             }
             .show()
     }
 
     private fun getRequestAgainAlertDialog(view: Activity?, permissionName: String): AlertDialog {
+        val permissionList = ArrayList<String>(deniedPermissions)
         return AlertDialog.Builder(view).setTitle("Permission Required")
             .setMessage("We need $permissionName permissions")
-            .setPositiveButton(
-                "OK"
-            ) { _, _ -> requestPermission(deniedPermissions) }
-            .setNegativeButton(
-                "NO"
-            ) { _, _ ->
-                permissionListener.onPermissionRejectedManyTimes(deniedPermissions)
-            }
+            .setPositiveButton("OK") { _, _ -> requestPermission(permissionList) }
+            .setNegativeButton("NO") { _, _ -> permissionListener?.onPermissionRejectedManyTimes(permissionList) }
             .show()
     }
 
