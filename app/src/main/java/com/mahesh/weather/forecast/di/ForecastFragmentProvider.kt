@@ -7,7 +7,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ForecastFragmentProvider {
 
-    @ContributesAndroidInjector(modules = [ForecastFragmentModule::class])
+    @ContributesAndroidInjector(modules = [ForecastFragmentModule::class, LocationModule::class])
     abstract fun provideForecastFragment(): ForecastFragment
 
 }

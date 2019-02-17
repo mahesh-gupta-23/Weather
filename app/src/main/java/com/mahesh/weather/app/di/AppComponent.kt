@@ -6,7 +6,12 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 
-@Component(modules = [AndroidInjectionModule::class, AppModule::class, NetworkModule::class, ActivityBuilder::class])
+@Component(
+    modules = [AndroidInjectionModule::class,
+        AppModule::class,
+        NetworkModule::class,
+        ActivityBuilder::class]
+)
 interface AppComponent {
 
     fun inject(application: WeatherApplication)

@@ -1,5 +1,7 @@
 package com.mahesh.weather.app.di
 
+import android.app.Application
+import android.content.Context
 import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.coroutines.DefaultCoroutinesManager
@@ -24,6 +26,11 @@ class AppModule {
         return DefaultCoroutinesManager()
     }
 
+    @Provides
+    @Singleton
+    internal fun provideContext(application: Application): Context {
+        return application
+    }
 
     @Provides
     @Singleton

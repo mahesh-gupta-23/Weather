@@ -1,5 +1,6 @@
 package com.mahesh.weather.forecast
 
+import android.content.Intent
 import com.mahesh.weather.app.presenter.BasePresenter
 import com.mahesh.weather.app.presenter.BaseView
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
@@ -10,6 +11,8 @@ class ForecastContract {
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {
+        fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
+        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     }
 
     interface AdapterPresenter {

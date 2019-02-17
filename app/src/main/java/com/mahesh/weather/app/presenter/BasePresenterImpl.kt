@@ -11,18 +11,6 @@ abstract class BasePresenterImpl<View : BaseView> : ViewModel(), BasePresenter<V
     private var viewLifecycle: Lifecycle? = null
     private val isViewResumed = AtomicBoolean(false)
 
-    init {
-        injectDependencies()
-    }
-
-    protected fun injectDependencies() {
-        onInjectDependencies()
-    }
-
-    protected open fun onInjectDependencies() {
-        // Nothing to do here. This is an event handled by the subclasses.
-    }
-
     protected fun view(): View? {
         if (isViewResumed.get()) {
             viewInstance?.let { return it }
@@ -43,6 +31,12 @@ abstract class BasePresenterImpl<View : BaseView> : ViewModel(), BasePresenter<V
     }
 
     @Synchronized
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    private fun onViewCreate() {
+        onCreate()
+    }
+
+    @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun onViewResumed() {
         onResume()
@@ -54,6 +48,8 @@ abstract class BasePresenterImpl<View : BaseView> : ViewModel(), BasePresenter<V
         viewInstance = null
         viewLifecycle = null
     }
+
+    abstract fun onCreate()
 
     abstract fun onResume()
 
