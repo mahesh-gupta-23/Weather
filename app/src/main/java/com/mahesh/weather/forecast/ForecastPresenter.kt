@@ -7,6 +7,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.mahesh.weather.app.TAG
+import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.presenter.BasePresenterImpl
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.helper.LocationHelper
@@ -14,10 +15,12 @@ import com.mahesh.weather.helper.PermissionHelper
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
+    coroutinesManager: CoroutinesManager,
     private val locationHelper: LocationHelper,
-    private val permissionHelper: PermissionHelper
+    private val permissionHelper: PermissionHelper,
+    private val modelInteractor: ForecastContract.ModelInteractor
 ) :
-    BasePresenterImpl<ForecastContract.View>(),
+    BasePresenterImpl<ForecastContract.View>(coroutinesManager),
     ForecastContract.Presenter<ForecastContract.View>,
     ForecastContract.AdapterPresenter,
     PermissionHelper.PermissionsListener {
@@ -50,12 +53,21 @@ class ForecastPresenter @Inject constructor(
         if (permissionHelper.isPermissionGranted(permissionList)) {
             locationHelper.getLocation(object : LocationHelper.Callback {
                 override fun onLocationFetched(location: Location) {
-                    Log.d(TAG, "location callback $location")
+                    getWeatherDataAndDisplay(location)
                 }
             })
         } else {
             permissionHelper.requestPermission(permissionList)
         }
+    }
+
+    private fun getWeatherDataAndDisplay(location: Location) {
+        launchOnUITryCatch({
+            val currentWeather = modelInteractor.getCurrentWeather(location.latitude, location.longitude)
+            Log.d(TAG, "currentWeather $currentWeather")
+        }, {
+            Log.d(TAG, "exception $it")
+        })
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

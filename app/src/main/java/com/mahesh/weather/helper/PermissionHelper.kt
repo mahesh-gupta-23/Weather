@@ -11,14 +11,14 @@ import android.provider.Settings
 import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.util.REQUEST_PERMISSION_CODE
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class PermissionHelper @Inject constructor(private val activityView: FragmentActivity) {
+class PermissionHelper @Inject constructor(private val activityView: AppCompatActivity) {
 
     private val deniedPermissions: MutableList<String> = mutableListOf()
     private val granted: MutableList<String> = mutableListOf()

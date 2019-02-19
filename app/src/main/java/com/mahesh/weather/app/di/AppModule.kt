@@ -2,7 +2,6 @@ package com.mahesh.weather.app.di
 
 import android.app.Application
 import android.content.Context
-import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.coroutines.DefaultCoroutinesManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
@@ -13,12 +12,6 @@ import javax.inject.Singleton
 
 @Module
 class AppModule {
-
-    @Provides
-    @Singleton
-    internal fun provideApiKey(): String {
-        return BuildConfig.WEATHER_API_APP_ID
-    }
 
     @Provides
     @Singleton

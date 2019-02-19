@@ -3,9 +3,12 @@ package com.mahesh.weather.app.presenter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
+import com.mahesh.weather.app.coroutines.CoroutinesManager
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BasePresenterImpl<View : BaseView> : ViewModel(), BasePresenter<View> {
+abstract class BasePresenterImpl<View : BaseView>
+constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManager by coroutinesManager,
+    BasePresenter<View> {
 
     private var viewInstance: View? = null
     private var viewLifecycle: Lifecycle? = null

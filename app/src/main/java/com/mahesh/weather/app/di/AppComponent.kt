@@ -5,7 +5,9 @@ import com.mahesh.weather.app.WeatherApplication
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = [AndroidInjectionModule::class,
         AppModule::class,

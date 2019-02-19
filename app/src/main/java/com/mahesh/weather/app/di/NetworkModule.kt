@@ -1,10 +1,10 @@
 package com.mahesh.weather.app.di
 
-import android.app.Application
-import android.content.Context
 import com.google.gson.Gson
 import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.service.WeatherAPI
+import com.mahesh.weather.service.repository.WeatherRepository
+import com.mahesh.weather.service.repository.WeatherRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -44,10 +44,10 @@ class NetworkModule {
             .create(WeatherAPI::class.java)
     }
 
-
     @Provides
     @Singleton
-    internal fun provideContext(application: Application): Context {
-        return application
+    internal fun provideWeatherRepository(repository: WeatherRepositoryImpl): WeatherRepository {
+        return repository
     }
+
 }
