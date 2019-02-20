@@ -1,5 +1,7 @@
 package com.mahesh.weather.forecast.di
 
+import android.content.Context
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.GoogleApiClient
@@ -10,6 +12,7 @@ import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.forecast.ForecastContract
 import com.mahesh.weather.forecast.ForecastModelInteractor
 import com.mahesh.weather.forecast.ForecastPresenter
+import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.repository.WeatherRepository
@@ -31,9 +34,10 @@ class ForecastFragmentModule {
         coroutinesManager: CoroutinesManager,
         locationHelper: LocationHelper,
         permissionHelper: PermissionHelper,
+        geocoderHelper: GeocoderHelper,
         modelInteractor: ForecastContract.ModelInteractor
     ): ForecastPresenter {
-        return ForecastPresenter(coroutinesManager, locationHelper, permissionHelper, modelInteractor)
+        return ForecastPresenter(coroutinesManager, locationHelper, permissionHelper, geocoderHelper, modelInteractor)
     }
 
     @Provides
@@ -52,6 +56,16 @@ class ForecastFragmentModule {
         fusedLocationClient: FusedLocationProviderClient
     ): LocationHelper {
         return LocationHelper(activity, googleApiClient, locationRequest, fusedLocationClient)
+    }
+
+    @Provides
+    internal fun providesGeocoderHelper(
+        coroutinesManager: CoroutinesManager,
+        geocoder: Geocoder,
+        asyncTasksManager: AsyncTasksManager,
+        context: Context
+    ): GeocoderHelper {
+        return GeocoderHelper(coroutinesManager, geocoder, asyncTasksManager, context)
     }
 
     @Provides

@@ -2,6 +2,7 @@
   <dictionary name="mahesh">
     <words>
       <w>coroutines</w>
+      <w>geocoder</w>
       <w>koin</w>
     </words>
   </dictionary>

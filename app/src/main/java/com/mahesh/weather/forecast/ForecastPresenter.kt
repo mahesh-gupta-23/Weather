@@ -10,6 +10,7 @@ import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.presenter.BasePresenterImpl
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
+import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
@@ -19,6 +20,7 @@ class ForecastPresenter @Inject constructor(
     coroutinesManager: CoroutinesManager,
     private val locationHelper: LocationHelper,
     private val permissionHelper: PermissionHelper,
+    private val geocoderHelper: GeocoderHelper,
     private val modelInteractor: ForecastContract.ModelInteractor
 ) :
     BasePresenterImpl<ForecastContract.View>(coroutinesManager),
@@ -53,11 +55,20 @@ class ForecastPresenter @Inject constructor(
     private fun getLocation() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
             locationHelper.getLocation {
+                showLocationData(it)
                 getWeatherDataAndDisplay(location = it)
             }
         } else {
             permissionHelper.requestPermission(permissionList)
         }
+    }
+
+    private fun showLocationData(location: Location) {
+        geocoderHelper.getAddress(location = location, onAddressFetched = {
+            view()?.setLocation("${it.subAdminArea}, ${it.adminArea}")
+        }, onAddressError = {
+            view()?.showSnackBar(it)
+        })
     }
 
     private fun getWeatherDataAndDisplay(location: Location) {
@@ -70,7 +81,9 @@ class ForecastPresenter @Inject constructor(
     }
 
     private fun showCurrentWeatherData(currentWeather: CurrentWeather?) {
-        Log.d(TAG, "currentWeather $currentWeather")
+        if (currentWeather != null) {
+
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -83,7 +96,7 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onPermissionGranted() {
-        getLocation()
+//        getLocation()
     }
 
     override fun onPermissionRejectedManyTimes(rejectedPerms: List<String>) {

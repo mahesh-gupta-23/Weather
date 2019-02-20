@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
 import com.mahesh.weather.databinding.FragmentForecastBinding
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
@@ -52,6 +53,14 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             presenter.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun setLocation(location: String?) {
+        binding.tvLocation.text = location
+    }
+
+    override fun showSnackBar(string: String) {
+        Snackbar.make(binding.root, string, Snackbar.LENGTH_LONG).show()
     }
 
 }

@@ -8,7 +8,8 @@ import com.mahesh.weather.service.models.CurrentWeather
 
 class ForecastContract {
     interface View : BaseView {
-
+        fun setLocation(location: String?)
+        fun showSnackBar(string: String)
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {
