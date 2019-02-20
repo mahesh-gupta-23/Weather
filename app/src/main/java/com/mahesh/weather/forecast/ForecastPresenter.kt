@@ -12,6 +12,7 @@ import com.mahesh.weather.app.presenter.BasePresenterImpl
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
+import com.mahesh.weather.service.models.CurrentWeather
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
@@ -51,11 +52,9 @@ class ForecastPresenter @Inject constructor(
 
     private fun getLocation() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
-            locationHelper.getLocation(object : LocationHelper.Callback {
-                override fun onLocationFetched(location: Location) {
-                    getWeatherDataAndDisplay(location)
-                }
-            })
+            locationHelper.getLocation {
+                getWeatherDataAndDisplay(location = it)
+            }
         } else {
             permissionHelper.requestPermission(permissionList)
         }
@@ -63,11 +62,15 @@ class ForecastPresenter @Inject constructor(
 
     private fun getWeatherDataAndDisplay(location: Location) {
         launchOnUITryCatch({
-            val currentWeather = modelInteractor.getCurrentWeather(location.latitude, location.longitude)
-            Log.d(TAG, "currentWeather $currentWeather")
+            val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
+            showCurrentWeatherData(currentWeather)
         }, {
             Log.d(TAG, "exception $it")
         })
+    }
+
+    private fun showCurrentWeatherData(currentWeather: CurrentWeather?) {
+        Log.d(TAG, "currentWeather $currentWeather")
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

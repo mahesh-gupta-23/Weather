@@ -21,11 +21,7 @@ class LocationHelper @Inject constructor(
     private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
-    interface Callback {
-        fun onLocationFetched(location: Location)
-    }
-
-    private var callback: Callback? = null
+    private var callback: ((location: Location) -> Unit)? = null
     private var locationCallback: LocationCallback? = null
 
     init {
@@ -42,7 +38,7 @@ class LocationHelper @Inject constructor(
         }
     }
 
-    fun getLocation(callback: Callback) {
+    fun getLocation(callback: (location: Location) -> Unit) {
         this.callback = callback
         checkLocationSettingAndRequestUpdate()
     }
@@ -51,7 +47,7 @@ class LocationHelper @Inject constructor(
     private fun returnLocation() {
         fusedLocationClient.lastLocation?.addOnSuccessListener {
             if (it != null) {
-                callback?.onLocationFetched(it)
+                callback?.invoke(it)
                 stopLocationUpdate()
             } else {
                 checkLocationSettingAndRequestUpdate()
