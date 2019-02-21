@@ -6,7 +6,6 @@ import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.presenter.BasePresenterImpl
@@ -45,13 +44,9 @@ class ForecastPresenter @Inject constructor(
         Log.d(TAG, "onResume")
     }
 
-    override fun getAdapterEntity(position: Int): ForecastAdapterModel {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getAdapterEntity(position: Int): ForecastAdapterModel = modelInteractor.adapterEntityList[position]
 
-    override fun getAdapterEntityCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getAdapterEntityCount(): Int = modelInteractor.adapterEntityList.size
 
     private fun getLocation() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
@@ -75,7 +70,10 @@ class ForecastPresenter @Inject constructor(
     private fun getWeatherDataAndDisplay(location: Location) {
         launchOnUITryCatch({
             val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
+            val forecast = modelInteractor.getForecast(lat = location.latitude, lon = location.longitude)
             showCurrentWeatherData(currentWeather)
+            modelInteractor.createForecastAdapterEntity(forecast)
+            view()?.notifyForecastDataChanged()
         }, {
             Log.d(TAG, "exception $it")
         })
@@ -88,7 +86,7 @@ class ForecastPresenter @Inject constructor(
                 view()?.toggleWeatherImageVisibility(false)
             } else {
                 view()?.toggleWeatherImageVisibility(true)
-                view()?.loadWeatherImage("${BuildConfig.WEATHER_ICON_BASE}${currentWeather.weather[0].icon}.png")
+                view()?.loadWeatherImage(currentWeather.weather[0].icon)
             }
             view()?.setHumidity(currentWeather.main?.humidity)
         }

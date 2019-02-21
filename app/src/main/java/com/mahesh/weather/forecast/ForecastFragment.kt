@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
+import com.mahesh.weather.app.extensions.loadWeather
 import com.mahesh.weather.app.extensions.toggleVisibility
 import com.mahesh.weather.databinding.FragmentForecastBinding
+import com.mahesh.weather.forecast.adapter.ForecastAdapter
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
 import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerFragment
@@ -32,6 +35,8 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     @Inject
     lateinit var picasso: Picasso
 
+    private lateinit var adapter: ForecastAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +44,9 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
         setupPresenter()
+        adapter = ForecastAdapter(context, presenter as ForecastContract.AdapterPresenter, picasso)
+        binding.rvForecast.layoutManager = GridLayoutManager(context, 5)
+        binding.rvForecast.adapter = adapter
 
         return binding.root
     }
@@ -76,11 +84,15 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         binding.ivWeather.toggleVisibility(show)
     }
 
-    override fun loadWeatherImage(imagePath: String?) {
-        picasso.load(imagePath).into(binding.ivWeather)
+    override fun loadWeatherImage(weatherIcon: String?) {
+        picasso.loadWeather(weatherIcon, binding.ivWeather)
     }
 
     override fun setHumidity(humidity: Int?) {
         binding.tvHumidity.text = getString(R.string.relative_humidity, humidity, "%")
+    }
+
+    override fun notifyForecastDataChanged() {
+        adapter.notifyDataSetChanged()
     }
 }

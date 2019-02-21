@@ -5,6 +5,7 @@ import com.mahesh.weather.app.presenter.BasePresenter
 import com.mahesh.weather.app.presenter.BaseView
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.CurrentWeather
+import com.mahesh.weather.service.models.DayForecast
 
 class ForecastContract {
     interface View : BaseView {
@@ -12,8 +13,9 @@ class ForecastContract {
         fun showSnackBar(string: String)
         fun setCurrentTemp(temp: Double?)
         fun toggleWeatherImageVisibility(show: Boolean)
-        fun loadWeatherImage(imagePath: String?)
+        fun loadWeatherImage(weatherIcon: String?)
         fun setHumidity(humidity: Int?)
+        fun notifyForecastDataChanged()
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {
@@ -30,6 +32,9 @@ class ForecastContract {
     }
 
     interface ModelInteractor {
+        val adapterEntityList: MutableList<ForecastAdapterModel>
         suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather?
+        suspend fun getForecast(lat: Double, lon: Double): List<DayForecast>?
+        fun createForecastAdapterEntity(forecast: List<DayForecast>?)
     }
 }

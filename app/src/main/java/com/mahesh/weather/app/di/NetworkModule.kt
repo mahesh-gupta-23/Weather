@@ -47,7 +47,6 @@ class NetworkModule {
     @Singleton
     internal fun provideWeatherRepository(repository: WeatherRepositoryImpl): WeatherRepository = repository
 
-
     @Provides
     @Singleton
     internal fun providePicasso(): Picasso = Picasso.get()

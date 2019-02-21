@@ -44,7 +44,7 @@
                 tools:ignore="ContentDescription"/>
 
         <TextView
-                android:id="@+id/tv_temp"
+                android:id="@+id/tv_min_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="35&#176;"
@@ -56,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
-                android:id="@+id/tv_humidity"
+                android:id="@+id/tv_max_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="60%"
