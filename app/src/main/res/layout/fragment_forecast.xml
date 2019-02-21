@@ -52,11 +52,12 @@
             <ImageView
                     android:id="@+id/iv_weather"
                     app:layout_constraintBottom_toTopOf="@+id/tv_current_temp"
-                    android:layout_width="50dp"
+                    android:layout_width="30dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="10dp"
                     android:src="@mipmap/ic_launcher"
-                    android:layout_height="50dp"
+                    android:layout_height="30dp"
                     tools:ignore="ContentDescription"/>
 
             <TextView
@@ -65,7 +66,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textSize="100sp"
+                    android:textSize="50sp"
                     android:textStyle="bold"
                     android:includeFontPadding="false"
                     tools:text="24"
@@ -79,10 +80,10 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textSize="100sp"
+                    android:textSize="50sp"
                     android:textStyle="bold"
                     android:includeFontPadding="false"
-                    tools:text="@string/degree_unicode"
+                    android:text="@string/degree_unicode"
                     app:layout_constraintStart_toEndOf="@+id/tv_current_temp"
                     android:textColor="@color/textColor"/>
 
@@ -90,7 +91,8 @@
                     android:id="@+id/tv_humidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
                     tools:text="Relative Humidity 50%"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@+id/tv_current_temp"

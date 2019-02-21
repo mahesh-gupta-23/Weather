@@ -5,6 +5,7 @@ import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.service.WeatherAPI
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.service.repository.WeatherRepositoryImpl
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -29,25 +30,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideRestAdapterBuilder(client: OkHttpClient, gson: Gson): Retrofit.Builder {
-        return Retrofit.Builder()
+    internal fun provideRestAdapterBuilder(client: OkHttpClient, gson: Gson): Retrofit.Builder =
+        Retrofit.Builder()
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
-    }
 
     @Provides
     @Singleton
-    internal fun provideWeatherApi(builder: Retrofit.Builder): WeatherAPI {
-        return builder
+    internal fun provideWeatherApi(builder: Retrofit.Builder): WeatherAPI =
+        builder
             .baseUrl(BuildConfig.WEATHER_API_ENDPOINT)
             .build()
             .create(WeatherAPI::class.java)
-    }
 
     @Provides
     @Singleton
-    internal fun provideWeatherRepository(repository: WeatherRepositoryImpl): WeatherRepository {
-        return repository
-    }
+    internal fun provideWeatherRepository(repository: WeatherRepositoryImpl): WeatherRepository = repository
 
+
+    @Provides
+    @Singleton
+    internal fun providePicasso(): Picasso = Picasso.get()
 }

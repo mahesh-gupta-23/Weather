@@ -6,6 +6,7 @@ import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.presenter.BasePresenterImpl
@@ -82,7 +83,14 @@ class ForecastPresenter @Inject constructor(
 
     private fun showCurrentWeatherData(currentWeather: CurrentWeather?) {
         if (currentWeather != null) {
-
+            view()?.setCurrentTemp(currentWeather.main?.temp)
+            if (currentWeather.weather.isNullOrEmpty()) {
+                view()?.toggleWeatherImageVisibility(false)
+            } else {
+                view()?.toggleWeatherImageVisibility(true)
+                view()?.loadWeatherImage("${BuildConfig.WEATHER_ICON_BASE}${currentWeather.weather[0].icon}.png")
+            }
+            view()?.setHumidity(currentWeather.main?.humidity)
         }
     }
 
@@ -96,6 +104,7 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onPermissionGranted() {
+        //TODO : Fix this thing. it calls the get location 2nd time
 //        getLocation()
     }
 

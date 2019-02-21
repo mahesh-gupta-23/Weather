@@ -4,7 +4,7 @@ def versions = [
         androidGradlePlugin: '3.3.1',
         kotlin             : "1.3.20",
         constraintLayout   : "1.1.3",
-        supportLibrary     : "1.0.2",
+        appcompat          : "1.0.2",
         location           : "16.0.0",
         coreTesting        : "2.0.0",
         coroutines         : "1.1.0",
@@ -15,7 +15,8 @@ def versions = [
         junit              : "4.12",
         lifecycle          : "2.0.0",
         material           : "1.0.0",
-        recyclerView       : "1.0.0"
+        recyclerView       : "1.0.0",
+        picasso            : "2.71828"
 ]
 
 def deps = [:]
@@ -30,7 +31,7 @@ def build = [
 deps.build = build
 
 def core = [
-        appcompat       : "androidx.appcompat:appcompat:$versions.supportLibrary",
+        appcompat       : "androidx.appcompat:appcompat:$versions.appcompat",
         constraintLayout: "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
         lifecycle       : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
         recyclerView    : "androidx.recyclerview:recyclerview:$versions.recyclerView",
@@ -77,5 +78,7 @@ def coroutines = [
         android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
 ]
 deps.coroutines = coroutines
+
+deps.picasso = "com.squareup.picasso:picasso:$versions.picasso"
 
 ext.deps = deps

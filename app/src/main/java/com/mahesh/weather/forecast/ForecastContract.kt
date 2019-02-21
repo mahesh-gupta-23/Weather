@@ -10,6 +10,10 @@ class ForecastContract {
     interface View : BaseView {
         fun setLocation(location: String?)
         fun showSnackBar(string: String)
+        fun setCurrentTemp(temp: Double?)
+        fun toggleWeatherImageVisibility(show: Boolean)
+        fun loadWeatherImage(imagePath: String?)
+        fun setHumidity(humidity: Int?)
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {

@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
+import com.mahesh.weather.app.extensions.toggleVisibility
 import com.mahesh.weather.databinding.FragmentForecastBinding
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
+import com.squareup.picasso.Picasso
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -26,6 +28,9 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     lateinit var viewModelProvider: ViewModelProvider.Factory
 
     private lateinit var presenter: ForecastContract.Presenter<ForecastContract.View>
+
+    @Inject
+    lateinit var picasso: Picasso
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,4 +68,19 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         Snackbar.make(binding.root, string, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun setCurrentTemp(temp: Double?) {
+        binding.tvCurrentTemp.text = temp.toString()
+    }
+
+    override fun toggleWeatherImageVisibility(show: Boolean) {
+        binding.ivWeather.toggleVisibility(show)
+    }
+
+    override fun loadWeatherImage(imagePath: String?) {
+        picasso.load(imagePath).into(binding.ivWeather)
+    }
+
+    override fun setHumidity(humidity: Int?) {
+        binding.tvHumidity.text = getString(R.string.relative_humidity, humidity, "%")
+    }
 }

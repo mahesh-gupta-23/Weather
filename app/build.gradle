@@ -23,11 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "WEATHER_API_ENDPOINT", "\"http://api.openweathermap.org/\""
+            buildConfigField "String", "WEATHER_ICON_BASE", "\"https://openweathermap.org/img/w/\""
             buildConfigField "String", "WEATHER_API_APP_ID", "\"b707c85fb1ca3d79f0e93158c156c56a\""
         }
         debug {
-
             buildConfigField "String", "WEATHER_API_ENDPOINT", "\"http://api.openweathermap.org/\""
+            buildConfigField "String", "WEATHER_ICON_BASE", "\"https://openweathermap.org/img/w/\""
             buildConfigField "String", "WEATHER_API_APP_ID", "\"b707c85fb1ca3d79f0e93158c156c56a\""
         }
     }
