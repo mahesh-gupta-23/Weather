@@ -68,6 +68,10 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         }
     }
 
+    override fun setDate(todayDateAndTime: String) {
+        binding.tvDate.text = todayDateAndTime
+    }
+
     override fun setLocation(location: String?) {
         binding.tvLocation.text = location
     }
@@ -77,7 +81,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setCurrentTemp(temp: Double?) {
-        binding.tvCurrentTemp.text = temp.toString()
+        binding.tvCurrentTemp.text = getString(R.string.temp, temp.toString())
     }
 
     override fun toggleWeatherImageVisibility(show: Boolean) {

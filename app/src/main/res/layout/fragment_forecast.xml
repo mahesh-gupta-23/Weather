@@ -56,7 +56,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginBottom="10dp"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_height="30dp"
                     tools:ignore="ContentDescription"/>
 
@@ -72,19 +71,6 @@
                     tools:text="24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:textColor="@color/textColor"/>
-
-            <TextView
-                    android:id="@+id/tv_degree"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:textSize="50sp"
-                    android:textStyle="bold"
-                    android:includeFontPadding="false"
-                    android:text="@string/degree_unicode"
-                    app:layout_constraintStart_toEndOf="@+id/tv_current_temp"
                     android:textColor="@color/textColor"/>
 
             <TextView

@@ -15,7 +15,7 @@
                 tools:text="Sun"
                 android:textColor="@color/textColor"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -36,11 +36,11 @@
                 android:id="@+id/iv_weather"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginTop="5dp"
                 android:src="@mipmap/ic_launcher"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_date"
-                android:layout_margin="10dp"
                 tools:ignore="ContentDescription"/>
 
         <TextView
@@ -48,9 +48,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="35&#176;"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/textColor"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 app:layout_constraintTop_toBottomOf="@+id/iv_weather"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -59,10 +59,10 @@
                 android:id="@+id/tv_max_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="60%"
+                tools:text="60&#176;"
                 android:textColor="@color/textColor"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_temp"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_min_temp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 

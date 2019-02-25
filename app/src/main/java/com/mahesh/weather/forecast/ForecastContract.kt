@@ -9,6 +9,7 @@ import com.mahesh.weather.service.models.DayForecast
 
 class ForecastContract {
     interface View : BaseView {
+        fun setDate(todayDateAndTime: String)
         fun setLocation(location: String?)
         fun showSnackBar(string: String)
         fun setCurrentTemp(temp: Double?)
@@ -35,6 +36,7 @@ class ForecastContract {
         val adapterEntityList: MutableList<ForecastAdapterModel>
         suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather?
         suspend fun getForecast(lat: Double, lon: Double): List<DayForecast>?
+        fun getTodayDateAndTime(): String
         fun createForecastAdapterEntity(forecast: List<DayForecast>?)
     }
 }

@@ -51,6 +51,7 @@ class ForecastPresenter @Inject constructor(
     private fun getLocation() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
             locationHelper.getLocation {
+                view()?.setDate(modelInteractor.getTodayDateAndTime())
                 showLocationData(it)
                 getWeatherDataAndDisplay(location = it)
             }

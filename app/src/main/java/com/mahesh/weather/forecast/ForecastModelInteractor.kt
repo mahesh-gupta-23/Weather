@@ -24,11 +24,15 @@ class ForecastModelInteractor @Inject constructor(
     class GetForecastException constructor(val cityAndCountry: String) : RuntimeException()
 
     private val dayIdFormat = SimpleDateFormat("yyyyMMdd", Locale.US)
-    private var dayNameFormat: SimpleDateFormat = SimpleDateFormat("EEEE d", Locale.getDefault())
+    private var dayNameFormat: SimpleDateFormat = SimpleDateFormat("EE", Locale.getDefault())
+    private var dateFormat: SimpleDateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
+    private var mainDateFormat: SimpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
 
     init {
         dayIdFormat.timeZone = TimeZone.getTimeZone("UTC")
         dayNameFormat.timeZone = TimeZone.getDefault()
+        dateFormat.timeZone = TimeZone.getDefault()
+        mainDateFormat.timeZone = TimeZone.getDefault()
     }
 
     override val adapterEntityList: MutableList<ForecastAdapterModel> = mutableListOf()
@@ -45,6 +49,10 @@ class ForecastModelInteractor @Inject constructor(
             weatherRepository.getWeatherForecast(lat, lon)
         }
         return mapWeatherForecastToDayForecastList(forecast)
+    }
+
+    override fun getTodayDateAndTime(): String {
+        return mainDateFormat.format(Date())
     }
 
     private suspend fun mapWeatherForecastToDayForecastList(
@@ -65,14 +73,14 @@ class ForecastModelInteractor @Inject constructor(
 
                     // Find the minimum and maximum temperatures for each day
                     dayForecasts.forEach {
-                        it.main?.temp?.let {
+                        it.main?.temp?.let { temp ->
                             if (!isTemperatureFound) {
                                 isTemperatureFound = true
-                                minTemperature = it
-                                maxTemperature = it
+                                minTemperature = temp
+                                maxTemperature = temp
                             } else {
-                                minTemperature = min(minTemperature, it)
-                                maxTemperature = max(maxTemperature, it)
+                                minTemperature = min(minTemperature, temp)
+                                maxTemperature = max(maxTemperature, temp)
                             }
                         }
                     }
@@ -84,6 +92,7 @@ class ForecastModelInteractor @Inject constructor(
                         if (firstForecast.dt != null) getDayName(firstForecast.dt * 1000) else throw GetForecastException(
                             "cityAndCountry"
                         )
+                    val date = getDate(firstForecast.dt * 1000)
 
                     // Use the third weather condition as representative for the whole day
                     // and if not available, then use the first one.
@@ -91,11 +100,12 @@ class ForecastModelInteractor @Inject constructor(
                         if (dayForecasts.size > 2) dayForecasts[2] else firstForecast
                     val description =
                         dayWeatherForecast.weather?.get(0)?.description ?: throw GetForecastException("cityAndCountry")
-                    val icon = dayWeatherForecast.weather.get(0).icon ?: throw GetForecastException("cityAndCountry")
+                    val icon = dayWeatherForecast.weather[0].icon ?: throw GetForecastException("cityAndCountry")
 
                     result.add(
                         DayForecast(
                             dayName,
+                            date,
                             description,
                             if (isTemperatureFound) minTemperature else null,
                             if (isTemperatureFound) maxTemperature else null,
@@ -123,13 +133,17 @@ class ForecastModelInteractor @Inject constructor(
         return dayNameFormat.format(Date(utcTimeMillis))
     }
 
+    private fun getDate(utcTimeMillis: Long): String {
+        return dateFormat.format(Date(utcTimeMillis))
+    }
+
     override fun createForecastAdapterEntity(forecast: List<DayForecast>?) {
         forecast?.forEach {
             if (adapterEntityList.size < 5) {
                 adapterEntityList.add(
                     ForecastAdapterModel(
-                        it.dayName,
-                        "",
+                        it.day,
+                        it.date,
                         it.icon,
                         it.minTemperature,
                         it.maxTemperature
