@@ -99,4 +99,8 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     override fun notifyForecastDataChanged() {
         adapter.notifyDataSetChanged()
     }
+
+    override fun toggleProgressBar(show: Boolean) {
+        if (show) binding.progressBar.show() else binding.progressBar.hide()
+    }
 }

@@ -50,6 +50,7 @@ class ForecastPresenter @Inject constructor(
 
     private fun getLocation() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
+            toggleProgressBar(true)
             locationHelper.getLocation {
                 view()?.setDate(modelInteractor.getTodayDateAndTime())
                 showLocationData(it)
@@ -58,6 +59,10 @@ class ForecastPresenter @Inject constructor(
         } else {
             permissionHelper.requestPermission(permissionList)
         }
+    }
+
+    private fun toggleProgressBar(show: Boolean) {
+        view()?.toggleProgressBar(show)
     }
 
     private fun showLocationData(location: Location) {
@@ -70,11 +75,13 @@ class ForecastPresenter @Inject constructor(
 
     private fun getWeatherDataAndDisplay(location: Location) {
         launchOnUITryCatch({
+            toggleProgressBar(true)
             val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
             val forecast = modelInteractor.getForecast(lat = location.latitude, lon = location.longitude)
             showCurrentWeatherData(currentWeather)
             modelInteractor.createForecastAdapterEntity(forecast)
             view()?.notifyForecastDataChanged()
+            toggleProgressBar(false)
         }, {
             Log.d(TAG, "exception $it")
         })

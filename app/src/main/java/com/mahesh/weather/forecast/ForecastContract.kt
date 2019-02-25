@@ -17,6 +17,7 @@ class ForecastContract {
         fun loadWeatherImage(weatherIcon: String?)
         fun setHumidity(humidity: Int?)
         fun notifyForecastDataChanged()
+        fun toggleProgressBar(show: Boolean)
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {
