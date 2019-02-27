@@ -1,7 +1,5 @@
 package com.mahesh.weather.forecast
 
-import android.util.Log
-import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.CurrentWeather
@@ -21,9 +19,7 @@ class ForecastModelInteractor @Inject constructor(
 ) :
     ForecastContract.ModelInteractor {
 
-    class GetForecastException constructor(val cityAndCountry: String) : RuntimeException()
-
-    private val dayIdFormat = SimpleDateFormat("yyyyMMdd", Locale.US)
+    private val dayIdFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
     private var dayNameFormat: SimpleDateFormat = SimpleDateFormat("EE", Locale.getDefault())
     private var dateFormat: SimpleDateFormat = SimpleDateFormat("dd/MM", Locale.getDefault())
     private var mainDateFormat: SimpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
@@ -39,7 +35,6 @@ class ForecastModelInteractor @Inject constructor(
 
     override suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather? {
         return asyncTasksManager.asyncAwait {
-            Log.d(TAG, "current")
             weatherRepository.getCurrentWeather(lat, lon)
         }
     }
@@ -58,58 +53,47 @@ class ForecastModelInteractor @Inject constructor(
     private suspend fun mapWeatherForecastToDayForecastList(
         forecast: WeatherForecast?
     ): List<DayForecast> = asyncTasksManager.asyncAwait {
-
         val result: MutableList<DayForecast> = mutableListOf()
-
         if (forecast?.list != null && forecast.list.isNotEmpty()) {
             // Group the forecasts by day
             val forecastsGroupedByDay = getForecastsGroupedByDay(forecast.list)
-
             forecastsGroupedByDay.forEach { _, dayForecasts ->
                 if (dayForecasts.isNotEmpty()) {
-                    var minTemperature = 0.0
-                    var maxTemperature = 0.0
-                    var isTemperatureFound = false
+                    var minTemperature: Double? = null
+                    var maxTemperature: Double? = null
 
                     // Find the minimum and maximum temperatures for each day
                     dayForecasts.forEach {
-                        it.main?.temp?.let { temp ->
-                            if (!isTemperatureFound) {
-                                isTemperatureFound = true
-                                minTemperature = temp
-                                maxTemperature = temp
-                            } else {
-                                minTemperature = min(minTemperature, temp)
-                                maxTemperature = max(maxTemperature, temp)
-                            }
+                        it.main?.tempMin?.let { minTemp ->
+                            minTemperature =
+                                if (minTemperature == null) minTemp else min(minTemperature ?: 0.0, minTemp)
+                        }
+                    }
+                    dayForecasts.forEach {
+                        it.main?.tempMax?.let { maxTemp ->
+                            maxTemperature = max(maxTemperature ?: 0.0, maxTemp)
                         }
                     }
 
                     val firstForecast: ThreeHoursWeatherForecast = dayForecasts[0]
 
                     // The day name can be extracted by any of the forecasts for the same day
-                    val dayName =
-                        if (firstForecast.dt != null) getDayName(firstForecast.dt * 1000) else throw GetForecastException(
-                            "cityAndCountry"
-                        )
+                    val dayName = getDayName(firstForecast.dt!! * 1000)
                     val date = getDate(firstForecast.dt * 1000)
 
                     // Use the third weather condition as representative for the whole day
                     // and if not available, then use the first one.
                     val dayWeatherForecast: ThreeHoursWeatherForecast =
                         if (dayForecasts.size > 2) dayForecasts[2] else firstForecast
-                    val description =
-                        dayWeatherForecast.weather?.get(0)?.description ?: throw GetForecastException("cityAndCountry")
-                    val icon = dayWeatherForecast.weather[0].icon ?: throw GetForecastException("cityAndCountry")
+                    val icon = dayWeatherForecast.weather?.get(0)?.icon
 
                     result.add(
                         DayForecast(
                             day = dayName,
                             date = date,
-                            description = description,
                             icon = icon,
-                            maxTemperature = if (isTemperatureFound) maxTemperature else null,
-                            minTemperature = if (isTemperatureFound) minTemperature else null
+                            maxTemperature = maxTemperature,
+                            minTemperature = minTemperature
                         )
                     )
                 }
