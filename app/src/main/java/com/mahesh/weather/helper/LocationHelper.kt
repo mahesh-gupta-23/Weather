@@ -21,7 +21,8 @@ class LocationHelper @Inject constructor(
     private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
-    private var callback: ((location: Location) -> Unit)? = null
+    private var onLocationFetched: ((location: Location) -> Unit)? = null
+    private var onLocationDisabled: (() -> Unit)? = null
     private var locationCallback: LocationCallback? = null
 
     init {
@@ -38,8 +39,9 @@ class LocationHelper @Inject constructor(
         }
     }
 
-    fun getLocation(callback: (location: Location) -> Unit) {
-        this.callback = callback
+    fun getLocation(onLocationFetched: (location: Location) -> Unit, onLocationDisabled: () -> Unit) {
+        this.onLocationFetched = onLocationFetched
+        this.onLocationDisabled = onLocationDisabled
         checkLocationSettingAndRequestUpdate()
     }
 
@@ -47,7 +49,7 @@ class LocationHelper @Inject constructor(
     private fun returnLocation() {
         fusedLocationClient.lastLocation?.addOnSuccessListener {
             if (it != null) {
-                callback?.invoke(it)
+                onLocationFetched?.invoke(it)
                 stopLocationUpdate()
             } else {
                 checkLocationSettingAndRequestUpdate()
@@ -90,7 +92,8 @@ class LocationHelper @Inject constructor(
      * Handles the activity results
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, "onActivityResult")
+        Log.d(TAG, "onActivityResult requestCode $requestCode")
+        Log.d(TAG, "onActivityResult resultCode $resultCode")
         when (requestCode) {
             REQUEST_CHECK_SETTINGS -> when (resultCode) {
                 Activity.RESULT_OK ->
@@ -98,9 +101,10 @@ class LocationHelper @Inject constructor(
                     checkLocationSettingAndRequestUpdate()
                 Activity.RESULT_CANCELED
                 -> {
-
+                    onLocationDisabled?.invoke()
                 }
                 else -> {
+                    onLocationDisabled?.invoke()
                 }
             }// The user was asked to change settings, but chose not to
         }

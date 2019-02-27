@@ -52,11 +52,14 @@ class ForecastPresenter @Inject constructor(
     private fun getCurrentLocationAndDisplayWeather() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
             toggleProgressBar(true)
-            locationHelper.getLocation {
+            locationHelper.getLocation({
                 view()?.setDate(modelInteractor.getTodayDateAndTime())
                 showLocationData(it)
                 getWeatherDataAndDisplay(location = it)
-            }
+            }, {
+                Log.d(TAG, "onLocationDisabled ")
+                onLocationDisabled()
+            })
         } else {
             permissionHelper.requestPermission(permissionList)
         }
@@ -116,6 +119,14 @@ class ForecastPresenter @Inject constructor(
 
     override fun onPermissionRejectedManyTimes(rejectedPerms: List<String>) {
         view()?.showNeedLocationPermissionDialogToContinue({
+            getCurrentLocationAndDisplayWeather()
+        }, {
+            view()?.closeApplication()
+        })
+    }
+
+    private fun onLocationDisabled() {
+        view()?.showNeedLocationToBeEnabledToContinue({
             getCurrentLocationAndDisplayWeather()
         }, {
             view()?.closeApplication()

@@ -31,6 +31,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         forecastFragment?.onActivityResult(requestCode, resultCode, data)
     }
 }

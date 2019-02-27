@@ -9,4 +9,8 @@
     <string name="location_permission_required_content">We Need the location permission to display the weather
         based on your current location.\n\nClick OK to give permission or CANCEL to exit the application
     </string>
+    <string name="location_to_be_enabled_title">Enable Location</string>
+    <string name="location_to_be_enabled_content">To display the weather based on your current location we need the
+        location to be enabled.\n\nClick OK to continue or CANCEL to exit the application
+    </string>
 </resources>

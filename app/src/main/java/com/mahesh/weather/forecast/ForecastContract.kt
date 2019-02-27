@@ -20,6 +20,7 @@ class ForecastContract {
         fun toggleProgressBar(show: Boolean)
         fun showNeedLocationPermissionDialogToContinue(onOk: () -> Unit, onCancel: () -> Unit)
         fun closeApplication()
+        fun showNeedLocationToBeEnabledToContinue(onOk: () -> Unit, onCancel: () -> Unit?)
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {

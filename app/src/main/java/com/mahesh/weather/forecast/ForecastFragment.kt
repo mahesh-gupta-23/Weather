@@ -118,4 +118,14 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     override fun closeApplication() {
         activity?.finishAffinity()
     }
+
+    override fun showNeedLocationToBeEnabledToContinue(onOk: () -> Unit, onCancel: () -> Unit?) {
+        AlertDialog.Builder(context).setTitle(getString(R.string.location_to_be_enabled_title))
+            .setMessage(getString(R.string.location_to_be_enabled_content))
+            .setPositiveButton("OK") { _, _ ->
+                onOk.invoke()
+            }.setNegativeButton("CANCEL") { _, _ ->
+                onCancel.invoke()
+            }.show()
+    }
 }
