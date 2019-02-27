@@ -104,12 +104,12 @@ class ForecastModelInteractor @Inject constructor(
 
                     result.add(
                         DayForecast(
-                            dayName,
-                            date,
-                            description,
-                            if (isTemperatureFound) minTemperature else null,
-                            if (isTemperatureFound) maxTemperature else null,
-                            icon
+                            day = dayName,
+                            date = date,
+                            description = description,
+                            icon = icon,
+                            maxTemperature = if (isTemperatureFound) maxTemperature else null,
+                            minTemperature = if (isTemperatureFound) minTemperature else null
                         )
                     )
                 }
@@ -142,11 +142,11 @@ class ForecastModelInteractor @Inject constructor(
             if (adapterEntityList.size < 5) {
                 adapterEntityList.add(
                     ForecastAdapterModel(
-                        it.day,
-                        it.date,
-                        it.icon,
-                        it.minTemperature,
-                        it.maxTemperature
+                        day = it.day,
+                        date = it.date,
+                        iconName = it.icon,
+                        maxTemperature = it.maxTemperature,
+                        minTemperature = it.minTemperature
                     )
                 )
             }

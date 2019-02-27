@@ -4,7 +4,7 @@ data class DayForecast(
     val day: String,
     val date: String,
     val description: String,
-    val minTemperature: Double?,
+    val icon: String?,
     val maxTemperature: Double?,
-    val icon: String?
+    val minTemperature: Double?
 )

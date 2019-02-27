@@ -39,8 +39,8 @@ class ForecastAdapter(
             binding.tvDay.text = current.day
             binding.tvDate.text = current.date
             picasso.loadWeather(current.iconName, binding.ivWeather)
-            binding.tvMinTemp.text = context?.getString(R.string.temp, current.minTemperature.toString())
             binding.tvMaxTemp.text = context?.getString(R.string.temp, current.maxTemperature.toString())
+            binding.tvMinTemp.text = context?.getString(R.string.temp, current.minTemperature.toString())
         }
     }
 }
