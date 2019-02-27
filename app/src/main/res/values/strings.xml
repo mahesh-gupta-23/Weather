@@ -5,4 +5,8 @@
     <string name="no_address_found">No Address Found</string>
     <string name="relative_humidity">Relative Humidity %1$d%2$s</string>
     <string name="temp">%1$s&#176;</string>
+    <string name="location_permission_required_title">Location Permission Required</string>
+    <string name="location_permission_required_content">We Need the location permission to display the weather
+        based on your current location.\n\nClick OK to give permission or CANCEL to exit the application
+    </string>
 </resources>

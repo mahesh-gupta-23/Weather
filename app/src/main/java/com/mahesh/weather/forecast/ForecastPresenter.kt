@@ -37,7 +37,8 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onCreate() {
-        getLocation()
+        toggleProgressBar(false)
+        getCurrentLocationAndDisplayWeather()
     }
 
     override fun onResume() {
@@ -48,7 +49,7 @@ class ForecastPresenter @Inject constructor(
 
     override fun getAdapterEntityCount(): Int = modelInteractor.adapterEntityList.size
 
-    private fun getLocation() {
+    private fun getCurrentLocationAndDisplayWeather() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
             toggleProgressBar(true)
             locationHelper.getLocation {
@@ -110,12 +111,15 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onPermissionGranted() {
-        //TODO : Fix this thing. it calls the get location 2nd time
-//        getLocation()
+        getCurrentLocationAndDisplayWeather()
     }
 
     override fun onPermissionRejectedManyTimes(rejectedPerms: List<String>) {
-        //TODO : Show dialog on view to allow permission
+        view()?.showNeedLocationPermissionDialogToContinue({
+            getCurrentLocationAndDisplayWeather()
+        }, {
+            view()?.closeApplication()
+        })
     }
 
 }

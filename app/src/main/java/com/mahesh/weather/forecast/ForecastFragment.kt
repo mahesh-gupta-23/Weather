@@ -1,6 +1,7 @@
 package com.mahesh.weather.forecast
 
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -102,5 +103,19 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
 
     override fun toggleProgressBar(show: Boolean) {
         if (show) binding.progressBar.show() else binding.progressBar.hide()
+    }
+
+    override fun showNeedLocationPermissionDialogToContinue(onOk: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context).setTitle(getString(R.string.location_permission_required_title))
+            .setMessage(getString(R.string.location_permission_required_content))
+            .setPositiveButton("OK") { _, _ ->
+                onOk.invoke()
+            }.setNegativeButton("CANCEL") { _, _ ->
+                onCancel.invoke()
+            }.show()
+    }
+
+    override fun closeApplication() {
+        activity?.finishAffinity()
     }
 }

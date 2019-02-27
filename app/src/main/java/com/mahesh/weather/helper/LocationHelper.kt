@@ -98,6 +98,7 @@ class LocationHelper @Inject constructor(
                     checkLocationSettingAndRequestUpdate()
                 Activity.RESULT_CANCELED
                 -> {
+
                 }
                 else -> {
                 }

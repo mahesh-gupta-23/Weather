@@ -18,6 +18,8 @@ class ForecastContract {
         fun setHumidity(humidity: Int?)
         fun notifyForecastDataChanged()
         fun toggleProgressBar(show: Boolean)
+        fun showNeedLocationPermissionDialogToContinue(onOk: () -> Unit, onCancel: () -> Unit)
+        fun closeApplication()
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {
