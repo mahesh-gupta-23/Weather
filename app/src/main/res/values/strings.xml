@@ -13,4 +13,8 @@
     <string name="location_to_be_enabled_content">To display the weather based on your current location we need the
         location to be enabled.\n\nClick OK to continue or CANCEL to exit the application
     </string>
+    <string name="error_on_location_fetching_title">Oops Something went wrong</string>
+    <string name="error_on_location_fetching_content">Kindly Check your internet connection or try again later.</string>
+    <string name="internet_not_present_title">Internet not present</string>
+    <string name="internet_not_present_content">Kindly Check your internet connection and retry</string>
 </resources>

@@ -50,6 +50,7 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     private fun onViewDestroyed() {
         viewInstance = null
         viewLifecycle = null
+        cancelAllCoroutines()
     }
 
     abstract fun onCreate()

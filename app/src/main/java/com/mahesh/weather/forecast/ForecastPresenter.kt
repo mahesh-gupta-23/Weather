@@ -14,6 +14,7 @@ import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
@@ -57,7 +58,6 @@ class ForecastPresenter @Inject constructor(
                 showLocationData(it)
                 getWeatherDataAndDisplay(location = it)
             }, {
-                Log.d(TAG, "onLocationDisabled ")
                 onLocationDisabled()
             })
         } else {
@@ -87,8 +87,22 @@ class ForecastPresenter @Inject constructor(
             view()?.notifyForecastDataChanged()
             toggleProgressBar(false)
         }, {
+            view()?.toggleProgressBar(false)
             Log.d(TAG, "exception $it")
+            handelWeatherApiCallException(it, location)
         })
+    }
+
+    private fun handelWeatherApiCallException(throwable: Throwable, location: Location) {
+        if (throwable is UnknownHostException) {
+            view()?.showInternetNotPresentDialog {
+                getWeatherDataAndDisplay(location)
+            }
+        } else {
+            view()?.showAnErrorOccurredWhileFetchingWeather {
+                getWeatherDataAndDisplay(location)
+            }
+        }
     }
 
     private fun showCurrentWeatherData(currentWeather: CurrentWeather?) {

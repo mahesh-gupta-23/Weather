@@ -48,7 +48,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         adapter = ForecastAdapter(context, presenter as ForecastContract.AdapterPresenter, picasso)
         binding.rvForecast.layoutManager = GridLayoutManager(context, 5)
         binding.rvForecast.adapter = adapter
-
+        toggleProgressBar(false)
         return binding.root
     }
 
@@ -126,6 +126,22 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
                 onOk.invoke()
             }.setNegativeButton("CANCEL") { _, _ ->
                 onCancel.invoke()
+            }.show()
+    }
+
+    override fun showAnErrorOccurredWhileFetchingWeather(retry: () -> Unit) {
+        AlertDialog.Builder(context).setTitle(getString(R.string.error_on_location_fetching_title))
+            .setMessage(getString(R.string.error_on_location_fetching_content))
+            .setPositiveButton("Retry") { _, _ ->
+                retry.invoke()
+            }.show()
+    }
+
+    override fun showInternetNotPresentDialog(retry: () -> Unit) {
+        AlertDialog.Builder(context).setTitle(getString(R.string.internet_not_present_title))
+            .setMessage(getString(R.string.internet_not_present_content))
+            .setPositiveButton("Retry") { _, _ ->
+                retry.invoke()
             }.show()
     }
 }
