@@ -16,7 +16,8 @@ def versions = [
         lifecycle          : "2.0.0",
         material           : "1.0.0",
         recyclerView       : "1.0.0",
-        picasso            : "2.71828"
+        picasso            : "2.71828",
+        chuck              : "1.1.0"
 ]
 
 def deps = [:]
@@ -80,5 +81,11 @@ def coroutines = [
 deps.coroutines = coroutines
 
 deps.picasso = "com.squareup.picasso:picasso:$versions.picasso"
+
+def chuck = [
+        debug  : "com.readystatesoftware.chuck:library:$versions.chuck",
+        release: "com.readystatesoftware.chuck:library-no-op:$versions.chuck"
+]
+deps.chuck = chuck
 
 ext.deps = deps

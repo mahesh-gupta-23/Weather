@@ -1,10 +1,12 @@
 package com.mahesh.weather.app.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.service.WeatherAPI
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.service.repository.WeatherRepositoryImpl
+import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -18,7 +20,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideHttpClientBuilder(): OkHttpClient.Builder = OkHttpClient.Builder()
+    internal fun providesChuckInterceptor(context: Context): ChuckInterceptor = ChuckInterceptor(context)
+
+    @Provides
+    @Singleton
+    internal fun provideHttpClientBuilder(chuckInterceptor: ChuckInterceptor): OkHttpClient.Builder {
+        return OkHttpClient.Builder()
+            .addNetworkInterceptor(chuckInterceptor)
+    }
 
     @Provides
     @Singleton

@@ -17,7 +17,6 @@ dependencies {
     androidTestImplementation deps.test.espressoIntents
     testImplementation deps.test.junit
 
-
     // Dagger
     implementation deps.dagger.android
     implementation deps.dagger.androidSupport
@@ -37,4 +36,8 @@ dependencies {
 
     //Picasso
     implementation deps.picasso
+
+    //Chuck
+    debugImplementation deps.chuck.debug
+    releaseImplementation deps.chuck.release
 }

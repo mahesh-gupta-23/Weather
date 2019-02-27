@@ -2,6 +2,7 @@ package com.mahesh.weather.forecast
 
 import android.Manifest
 import android.content.Intent
+import android.location.Address
 import android.location.Location
 import android.os.Build
 import android.util.Log
@@ -71,10 +72,16 @@ class ForecastPresenter @Inject constructor(
 
     private fun showLocationData(location: Location) {
         geocoderHelper.getAddress(location = location, onAddressFetched = {
-            view()?.setLocation("${it.subAdminArea}, ${it.adminArea}")
+            view()?.setLocation(getLocationToDisplay(it))
         }, onAddressError = {
             view()?.showSnackBar(it)
         })
+    }
+
+    private fun getLocationToDisplay(it: Address) = when {
+        it.subAdminArea.isNotEmpty() -> "${it.subAdminArea}, ${it.adminArea}"
+        it.locality.isNotEmpty() -> "${it.locality}, ${it.adminArea}"
+        else -> it.adminArea
     }
 
     private fun getWeatherDataAndDisplay(location: Location) {
