@@ -19,5 +19,35 @@ interface Stubs {
             "Konkan Division",
             200
         )
+
+        @JvmField
+        val STUB_WEATHER_FORECAST = WeatherForecast(
+            cod = "200",
+            message = 0.0045,
+            cnt = 40,
+            list = listOf(
+                ThreeHoursWeatherForecast(
+                    dt = 1551268800,
+                    main = Main(
+                        temp = 27.1,
+                        tempMin = 25.14,
+                        tempMax = 27.1,
+                        pressure = 1010.09,
+                        seaLevel = 1010.09,
+                        grndLevel = 1009.51,
+                        humidity = 82,
+                        tempKf = 1.96
+                    ),
+                    weather = listOf(
+                        Weather(id = 800, main = "Clear", description = "clear sky", icon = "01d")
+                    ),
+                    clouds = Clouds(0),
+                    wind = Wind(5.19, 324.003),
+                    sys = Sys(null, null, null, null, null, null, "d"),
+                    dtTxt = "2019-02-27 12:00:00"
+                )
+            ),
+            city = City(id = 8131499, name = "Konkan Division", coord = Coord(72.8691, 19.0756), country = "IN")
+        )
     }
 }
