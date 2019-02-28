@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.TestAsyncTasksManager
 import com.mahesh.weather.service.models.Coord
-import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.testutils.BaseTest
 import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
@@ -14,7 +13,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.verify
 import org.mockito.Spy
 import org.mockito.runners.MockitoJUnitRunner
 
@@ -50,12 +48,19 @@ class ForecastModelInteractorTest : BaseTest() {
 
     @Test
     fun getCurrentWeatherTest() = runBlocking {
-        //When
-        val givenResult: CurrentWeather? = subject.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-
-        //Then
-        verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-        assertThat(givenResult).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
+        subject.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
+            assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
+        }
     }
 
+    @Test
+    fun getWeatherForecast() = runBlocking {
+        subject.getForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+            assertThat(this!![0].date).isEqualTo("27/02")
+            assertThat(this[0].day).isEqualTo("Wed")
+            assertThat(this[0].icon).isEqualTo("01d")
+            assertThat(this[0].maxTemperature).isEqualTo(27.1)
+            assertThat(this[0].minTemperature).isEqualTo(25.14)
+        }
+    }
 }

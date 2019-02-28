@@ -2,8 +2,6 @@ package com.mahesh.weather.service
 
 import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.service.models.Coord
-import com.mahesh.weather.service.models.CurrentWeather
-import com.mahesh.weather.service.models.WeatherForecast
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.testutils.BaseTest
 import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
@@ -12,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.verify
 import org.mockito.runners.MockitoJUnitRunner
 
 
@@ -39,21 +36,15 @@ class WeatherRepositoryTest : BaseTest() {
 
     @Test
     fun getCurrentWeatherTest() {
-        //When
-        val givenResult: CurrentWeather? = mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-
-        //Then
-        verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-        assertThat(givenResult).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
+        mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
+            assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
+        }
     }
 
     @Test
     fun getWeatherForecastTest() {
-        //When
-        val givenResult: WeatherForecast? = mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-
-        //Then
-        verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-        assertThat(givenResult).isEqualTo(Stubs.STUB_WEATHER_FORECAST)
+        mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+            assertThat(this).isEqualTo(Stubs.STUB_WEATHER_FORECAST)
+        }
     }
 }
