@@ -3,11 +3,11 @@ package com.mahesh.weather.forecast
 import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.TestAsyncTasksManager
-import com.mahesh.weather.service.models.Coord
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.testutils.BaseTest
 import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.testutils.Stubs
+import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -30,16 +30,11 @@ class ForecastModelInteractorTest : BaseTest() {
 
     private lateinit var subject: ForecastModelInteractor
 
-    private lateinit var givenCoord: Coord
-
     private val dateFormatToDisplay: SimpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
 
     @Before
     fun before() {
         subject = ForecastModelInteractor(asyncTasksManager, mockWeatherRepository)
-
-        //Given
-        givenCoord = Coord(72.877655, 19.075983)
 
         whenever(
             mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)

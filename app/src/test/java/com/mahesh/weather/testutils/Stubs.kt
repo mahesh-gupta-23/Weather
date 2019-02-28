@@ -4,6 +4,11 @@ import com.mahesh.weather.service.models.*
 
 interface Stubs {
     companion object {
+
+        @JvmField
+        val givenCoord: Coord = Coord(72.877655, 19.075983)
+
+
         @JvmField
         val STUB_CURRENT_WEATHER = CurrentWeather(
             Coord(72.877655, 19.075983),
