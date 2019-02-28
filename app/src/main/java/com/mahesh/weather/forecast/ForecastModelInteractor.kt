@@ -122,6 +122,7 @@ class ForecastModelInteractor @Inject constructor(
     }
 
     override fun createForecastAdapterEntity(forecast: List<DayForecast>?) {
+        adapterEntityList.clear()
         forecast?.forEach {
             if (adapterEntityList.size < 5) {
                 adapterEntityList.add(
