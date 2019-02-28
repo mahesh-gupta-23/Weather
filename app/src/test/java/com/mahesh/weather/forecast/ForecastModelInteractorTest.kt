@@ -15,6 +15,8 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Spy
 import org.mockito.runners.MockitoJUnitRunner
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -22,12 +24,15 @@ class ForecastModelInteractorTest : BaseTest() {
 
     @Spy
     private var asyncTasksManager: AsyncTasksManager = TestAsyncTasksManager()
+
     @Mock
     private lateinit var mockWeatherRepository: WeatherRepository
 
     private lateinit var subject: ForecastModelInteractor
 
     private lateinit var givenCoord: Coord
+
+    private val dateFormatToDisplay: SimpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
 
     @Before
     fun before() {
@@ -73,6 +78,13 @@ class ForecastModelInteractorTest : BaseTest() {
             assertThat(subject.adapterEntityList[0].iconName).isEqualTo("01d")
             assertThat(subject.adapterEntityList[0].maxTemperature).isEqualTo(27.1)
             assertThat(subject.adapterEntityList[0].minTemperature).isEqualTo(25.14)
+        }
+    }
+
+    @Test
+    fun getTodayDateAndTimeTest() {
+        subject.getTodayDateAndTime().run {
+            assertThat(this).isEqualTo(dateFormatToDisplay.format(Date()))
         }
     }
 }
