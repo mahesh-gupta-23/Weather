@@ -67,12 +67,13 @@ class ForecastModelInteractorTest : BaseTest() {
     @Test
     fun createForecastAdapterEntity() = runBlocking {
         subject.createForecastAdapterEntity(subject.getForecast(givenCoord.lat!!, givenCoord.lon!!)).run {
+            val adapterEntity = subject.adapterEntityList[0]
             assertThat(subject.adapterEntityList.size).isEqualTo(1)
-            assertThat(subject.adapterEntityList[0].date).isEqualTo("27/02")
-            assertThat(subject.adapterEntityList[0].day).isEqualTo("Wed")
-            assertThat(subject.adapterEntityList[0].iconName).isEqualTo("01d")
-            assertThat(subject.adapterEntityList[0].maxTemperature).isEqualTo(27.1)
-            assertThat(subject.adapterEntityList[0].minTemperature).isEqualTo(25.14)
+            assertThat(adapterEntity.date).isEqualTo("27/02")
+            assertThat(adapterEntity.day).isEqualTo("Wed")
+            assertThat(adapterEntity.iconName).isEqualTo("01d")
+            assertThat(adapterEntity.maxTemperature).isEqualTo(27.1)
+            assertThat(adapterEntity.minTemperature).isEqualTo(25.14)
         }
     }
 
