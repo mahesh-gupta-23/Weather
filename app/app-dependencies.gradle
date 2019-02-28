@@ -18,6 +18,7 @@ dependencies {
     testImplementation deps.test.junit
     testImplementation deps.test.truth
     testImplementation deps.test.mockito
+    testImplementation deps.test.robolectric
 
     // Dagger
     implementation deps.dagger.android
