@@ -6,18 +6,20 @@ def versions = [
         constraintLayout   : "1.1.3",
         appcompat          : "1.0.2",
         location           : "16.0.0",
-        coreTesting        : "2.0.0",
+        coreTesting        : "1.0.0",
         coroutines         : "1.1.0",
         espresso           : "3.1.1",
         dagger             : "2.20",
         retrofit           : "2.3.0",
         okhttp             : "3.9.1",
         junit              : "4.12",
+        truth              : "0.42",
         lifecycle          : "2.0.0",
         material           : "1.0.0",
         recyclerView       : "1.0.0",
         picasso            : "2.71828",
-        chuck              : "1.1.0"
+        chuck              : "1.1.0",
+        mockito            : "1.10.19"
 ]
 
 def deps = [:]
@@ -47,11 +49,14 @@ def playServices = [
 deps.playServices = playServices
 
 def test = [
-        core           : "androidx.arch.core:core-testing:$versions.coreTesting",
+        //        core           : "androidx.arch.core:core-testing:$versions.coreTesting",
+        core           : "androidx.test:core:$versions.coreTesting",
         espresso       : "androidx.test.espresso:espresso-contrib:$versions.espresso",
         espressoCore   : "androidx.test.espresso:espresso-core:$versions.espresso",
         espressoIntents: "androidx.test.espresso:espresso-intents:$versions.espresso",
-        junit          : "junit:junit:$versions.junit"
+        junit          : "junit:junit:$versions.junit",
+        truth          : "com.google.truth:truth:$versions.truth",
+        mockito        : "org.mockito:mockito-core:$versions.mockito"
 ]
 deps.test = test
 
