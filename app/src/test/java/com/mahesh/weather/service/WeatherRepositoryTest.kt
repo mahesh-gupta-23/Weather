@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -31,6 +32,7 @@ class WeatherRepositoryTest : BaseTest() {
     @Test
     fun getCurrentWeatherTest() {
         mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
+            verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
         }
     }
@@ -38,6 +40,7 @@ class WeatherRepositoryTest : BaseTest() {
     @Test
     fun getWeatherForecastTest() {
         mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+            verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this).isEqualTo(Stubs.STUB_WEATHER_FORECAST)
         }
     }

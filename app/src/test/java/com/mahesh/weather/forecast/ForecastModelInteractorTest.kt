@@ -13,6 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import java.text.SimpleDateFormat
@@ -49,6 +50,7 @@ class ForecastModelInteractorTest : BaseTest() {
     @Test
     fun getCurrentWeatherTest() = runBlocking {
         subject.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
+            verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
         }
     }
@@ -56,6 +58,7 @@ class ForecastModelInteractorTest : BaseTest() {
     @Test
     fun getWeatherForecast() = runBlocking {
         subject.getForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+            verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this!![0].date).isEqualTo("27/02")
             assertThat(this[0].day).isEqualTo("Wed")
             assertThat(this[0].icon).isEqualTo("01d")
