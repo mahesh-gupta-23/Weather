@@ -36,19 +36,14 @@ class ForecastModelInteractorTest : BaseTest() {
     @Before
     fun before() {
         subject = ForecastModelInteractor(asyncTasksManager, mockWeatherRepository)
-
-        whenever(
-            mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-        ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
-
-        whenever(
-            mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-        ).thenReturn(Stubs.STUB_WEATHER_FORECAST)
-
     }
 
     @Test
     fun getCurrentWeatherTest() = runBlocking {
+        whenever(
+            mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
+        ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
+
         subject.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
             verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
@@ -57,26 +52,13 @@ class ForecastModelInteractorTest : BaseTest() {
 
     @Test
     fun getWeatherForecast() = runBlocking {
-        subject.getForecast(givenCoord.lat!!, givenCoord.lon!!).run {
-            verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-            assertThat(this!![0].date).isEqualTo("27/02")
-            assertThat(this[0].day).isEqualTo("Wed")
-            assertThat(this[0].icon).isEqualTo("01d")
-            assertThat(this[0].maxTemperature).isEqualTo(27.1)
-            assertThat(this[0].minTemperature).isEqualTo(25.14)
-        }
-    }
+        whenever(
+            mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
+        ).thenReturn(Stubs.STUB_WEATHER_FORECAST)
 
-    @Test
-    fun createForecastAdapterEntity() = runBlocking {
-        subject.createForecastAdapterEntity(subject.getForecast(givenCoord.lat!!, givenCoord.lon!!)).run {
-            val adapterEntity = subject.adapterEntityList[0]
-            assertThat(subject.adapterEntityList.size).isEqualTo(1)
-            assertThat(adapterEntity.date).isEqualTo("27/02")
-            assertThat(adapterEntity.day).isEqualTo("Wed")
-            assertThat(adapterEntity.iconName).isEqualTo("01d")
-            assertThat(adapterEntity.maxTemperature).isEqualTo(27.1)
-            assertThat(adapterEntity.minTemperature).isEqualTo(25.14)
+        subject.getDayForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+            verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
+            assertThat(this!![0]).isEqualTo(Stubs.STUB_DAY_FORECAST)
         }
     }
 

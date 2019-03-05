@@ -37,7 +37,7 @@ class ForecastContract {
 
     interface ModelInteractor {
         suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather?
-        suspend fun getForecast(lat: Double, lon: Double): List<DayForecast>?
+        suspend fun getDayForecast(lat: Double, lon: Double): List<DayForecast>?
         fun getTodayDateAndTime(): String
     }
 }

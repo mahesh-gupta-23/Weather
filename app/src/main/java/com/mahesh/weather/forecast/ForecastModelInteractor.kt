@@ -34,7 +34,7 @@ class ForecastModelInteractor @Inject constructor(
         }
     }
 
-    override suspend fun getForecast(lat: Double, lon: Double): List<DayForecast>? {
+    override suspend fun getDayForecast(lat: Double, lon: Double): List<DayForecast>? {
         val forecast = asyncTasksManager.asyncAwait {
             weatherRepository.getWeatherForecast(lat, lon)
         }

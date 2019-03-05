@@ -87,9 +87,9 @@ class ForecastPresenter @Inject constructor(
         launchOnUITryCatch({
             toggleProgressBar(true)
             val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
-            val forecast = modelInteractor.getForecast(lat = location.latitude, lon = location.longitude)
+            val dayForecastList = modelInteractor.getDayForecast(lat = location.latitude, lon = location.longitude)
             showCurrentWeatherData(currentWeather)
-            createForecastAdapterEntity(forecast)
+            createForecastAdapterEntity(dayForecastList)
             view()?.notifyForecastDataChanged()
             toggleProgressBar(false)
         }, {
@@ -99,9 +99,9 @@ class ForecastPresenter @Inject constructor(
         })
     }
 
-    private fun createForecastAdapterEntity(forecast: List<DayForecast>?) {
+    private fun createForecastAdapterEntity(dayForecastList: List<DayForecast>?) {
         adapterEntityList.clear()
-        forecast?.forEach {
+        dayForecastList?.forEach {
             if (adapterEntityList.size < 5) {
                 adapterEntityList.add(
                     ForecastAdapterModel(

@@ -54,5 +54,9 @@ interface Stubs {
             ),
             city = City(id = 8131499, name = "Konkan Division", coord = Coord(72.8691, 19.0756), country = "IN")
         )
+
+        @JvmField
+        val STUB_DAY_FORECAST =
+            DayForecast(day = "Wed", date = "27/02", icon = "01d", maxTemperature = 27.1, minTemperature = 25.14)
     }
 }
