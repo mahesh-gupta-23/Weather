@@ -15,22 +15,21 @@ import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
+import com.mahesh.weather.service.models.DayForecast
 import java.net.UnknownHostException
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
-    coroutinesManager: CoroutinesManager,
-    private val locationHelper: LocationHelper,
-    private val permissionHelper: PermissionHelper,
-    private val geocoderHelper: GeocoderHelper,
+    coroutinesManager: CoroutinesManager, private val locationHelper: LocationHelper,
+    private val permissionHelper: PermissionHelper, private val geocoderHelper: GeocoderHelper,
     private val modelInteractor: ForecastContract.ModelInteractor
-) :
-    BasePresenterImpl<ForecastContract.View>(coroutinesManager),
+) : BasePresenterImpl<ForecastContract.View>(coroutinesManager),
     ForecastContract.Presenter<ForecastContract.View>,
     ForecastContract.AdapterPresenter,
     PermissionHelper.PermissionsListener {
 
     private val permissionList: MutableList<String> = mutableListOf()
+    private val adapterEntityList: MutableList<ForecastAdapterModel> = mutableListOf()
 
     init {
         permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -47,9 +46,9 @@ class ForecastPresenter @Inject constructor(
         Log.d(TAG, "onResume")
     }
 
-    override fun getAdapterEntity(position: Int): ForecastAdapterModel = modelInteractor.adapterEntityList[position]
+    override fun getAdapterEntity(position: Int): ForecastAdapterModel = adapterEntityList[position]
 
-    override fun getAdapterEntityCount(): Int = modelInteractor.adapterEntityList.size
+    override fun getAdapterEntityCount(): Int = adapterEntityList.size
 
     private fun getCurrentLocationAndDisplayWeather() {
         if (permissionHelper.isPermissionGranted(permissionList)) {
@@ -90,7 +89,7 @@ class ForecastPresenter @Inject constructor(
             val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
             val forecast = modelInteractor.getForecast(lat = location.latitude, lon = location.longitude)
             showCurrentWeatherData(currentWeather)
-            modelInteractor.createForecastAdapterEntity(forecast)
+            createForecastAdapterEntity(forecast)
             view()?.notifyForecastDataChanged()
             toggleProgressBar(false)
         }, {
@@ -98,6 +97,23 @@ class ForecastPresenter @Inject constructor(
             Log.d(TAG, "exception $it")
             handelWeatherApiCallException(it, location)
         })
+    }
+
+    private fun createForecastAdapterEntity(forecast: List<DayForecast>?) {
+        adapterEntityList.clear()
+        forecast?.forEach {
+            if (adapterEntityList.size < 5) {
+                adapterEntityList.add(
+                    ForecastAdapterModel(
+                        day = it.day,
+                        date = it.date,
+                        iconName = it.icon,
+                        maxTemperature = it.maxTemperature,
+                        minTemperature = it.minTemperature
+                    )
+                )
+            }
+        }
     }
 
     private fun handelWeatherApiCallException(throwable: Throwable, location: Location) {
@@ -153,5 +169,4 @@ class ForecastPresenter @Inject constructor(
             view()?.closeApplication()
         })
     }
-
 }

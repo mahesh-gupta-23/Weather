@@ -31,18 +31,13 @@ class ForecastContract {
     }
 
     interface AdapterPresenter {
-
         fun getAdapterEntity(position: Int): ForecastAdapterModel
-
         fun getAdapterEntityCount(): Int
-
     }
 
     interface ModelInteractor {
-        val adapterEntityList: MutableList<ForecastAdapterModel>
         suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather?
         suspend fun getForecast(lat: Double, lon: Double): List<DayForecast>?
         fun getTodayDateAndTime(): String
-        fun createForecastAdapterEntity(forecast: List<DayForecast>?)
     }
 }

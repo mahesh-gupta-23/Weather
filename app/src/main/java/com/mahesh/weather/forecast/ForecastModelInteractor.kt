@@ -1,7 +1,6 @@
 package com.mahesh.weather.forecast
 
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
-import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
 import com.mahesh.weather.service.models.ThreeHoursWeatherForecast
@@ -14,10 +13,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class ForecastModelInteractor @Inject constructor(
-    private val asyncTasksManager: AsyncTasksManager,
-    private val weatherRepository: WeatherRepository
-) :
-    ForecastContract.ModelInteractor {
+    private val asyncTasksManager: AsyncTasksManager, private val weatherRepository: WeatherRepository
+) : ForecastContract.ModelInteractor {
 
     private val dayIdFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
     private var dayNameFormat: SimpleDateFormat = SimpleDateFormat("EE", Locale.getDefault())
@@ -30,8 +27,6 @@ class ForecastModelInteractor @Inject constructor(
         dateFormat.timeZone = TimeZone.getDefault()
         mainDateFormat.timeZone = TimeZone.getDefault()
     }
-
-    override val adapterEntityList: MutableList<ForecastAdapterModel> = mutableListOf()
 
     override suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather? {
         return asyncTasksManager.asyncAwait {
@@ -50,57 +45,49 @@ class ForecastModelInteractor @Inject constructor(
         return mainDateFormat.format(Date())
     }
 
-    private suspend fun mapWeatherForecastToDayForecastList(
-        forecast: WeatherForecast?
-    ): List<DayForecast> = asyncTasksManager.asyncAwait {
-        val result: MutableList<DayForecast> = mutableListOf()
-        if (forecast?.list != null && forecast.list.isNotEmpty()) {
-            // Group the forecasts by day
-            val forecastsGroupedByDay = getForecastsGroupedByDay(forecast.list)
-            forecastsGroupedByDay.forEach { _, dayForecasts ->
-                if (dayForecasts.isNotEmpty()) {
-                    var minTemperature: Double? = null
-                    var maxTemperature: Double? = null
-
-                    // Find the minimum and maximum temperatures for each day
-                    dayForecasts.forEach {
-                        it.main?.tempMin?.let { minTemp ->
-                            minTemperature =
-                                if (minTemperature == null) minTemp else min(minTemperature ?: 0.0, minTemp)
-                        }
-                    }
-                    dayForecasts.forEach {
-                        it.main?.tempMax?.let { maxTemp ->
-                            maxTemperature = max(maxTemperature ?: 0.0, maxTemp)
-                        }
-                    }
-
-                    val firstForecast: ThreeHoursWeatherForecast = dayForecasts[0]
-
-                    // The day name can be extracted by any of the forecasts for the same day
-                    val dayName = getDayName(firstForecast.dt!! * 1000)
-                    val date = getDate(firstForecast.dt * 1000)
-
-                    // Use the third weather condition as representative for the whole day
-                    // and if not available, then use the first one.
-                    val dayWeatherForecast: ThreeHoursWeatherForecast =
-                        if (dayForecasts.size > 2) dayForecasts[2] else firstForecast
-                    val icon = dayWeatherForecast.weather?.get(0)?.icon
-
-                    result.add(
-                        DayForecast(
-                            day = dayName,
-                            date = date,
-                            icon = icon,
-                            maxTemperature = maxTemperature,
-                            minTemperature = minTemperature
+    private suspend fun mapWeatherForecastToDayForecastList(forecast: WeatherForecast?): List<DayForecast> =
+        asyncTasksManager.asyncAwait {
+            val result: MutableList<DayForecast> = mutableListOf()
+            if (forecast?.list != null && forecast.list.isNotEmpty()) {
+                // Group the forecasts by day
+                getForecastsGroupedByDay(forecast.list).forEach { _, dayForecasts ->
+                    if (dayForecasts.isNotEmpty()) {
+                        // Use the third weather condition as representative for the whole day
+                        // and if not available, then use the first one.
+                        val dayWeatherForecast = if (dayForecasts.size > 2) dayForecasts[2] else dayForecasts[0]
+                        result.add(
+                            DayForecast(
+                                day = getDayName(dayForecasts[0].dt!! * 1000),
+                                date = getDate(dayForecasts[0].dt!! * 1000),
+                                icon = dayWeatherForecast.weather?.get(0)?.icon,
+                                maxTemperature = getMaxTempFor(dayForecasts),
+                                minTemperature = getMinTempFor(dayForecasts)
+                            )
                         )
-                    )
+                    }
                 }
             }
+            return@asyncAwait result
         }
 
-        return@asyncAwait result
+    private fun getMaxTempFor(dayForecasts: List<ThreeHoursWeatherForecast>): Double? {
+        var maxTemp: Double? = null
+        dayForecasts.forEach {
+            it.main?.tempMax?.let { currentMax ->
+                maxTemp = max(maxTemp ?: 0.0, currentMax)
+            }
+        }
+        return maxTemp
+    }
+
+    private fun getMinTempFor(dayForecasts: List<ThreeHoursWeatherForecast>): Double? {
+        var minTemp: Double? = null
+        dayForecasts.forEach {
+            it.main?.tempMin?.let { currentMin ->
+                minTemp = if (minTemp == null) currentMin else min(minTemp ?: 0.0, currentMin)
+            }
+        }
+        return minTemp
     }
 
     private fun getForecastsGroupedByDay(forecasts: List<ThreeHoursWeatherForecast>): Map<String, List<ThreeHoursWeatherForecast>> {
@@ -120,22 +107,4 @@ class ForecastModelInteractor @Inject constructor(
     private fun getDate(utcTimeMillis: Long): String {
         return dateFormat.format(Date(utcTimeMillis))
     }
-
-    override fun createForecastAdapterEntity(forecast: List<DayForecast>?) {
-        adapterEntityList.clear()
-        forecast?.forEach {
-            if (adapterEntityList.size < 5) {
-                adapterEntityList.add(
-                    ForecastAdapterModel(
-                        day = it.day,
-                        date = it.date,
-                        iconName = it.icon,
-                        maxTemperature = it.maxTemperature,
-                        minTemperature = it.minTemperature
-                    )
-                )
-            }
-        }
-    }
-
 }
