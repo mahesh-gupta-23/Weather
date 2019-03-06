@@ -21,8 +21,7 @@ class ForecastContract {
         fun showNeedLocationPermissionDialogToContinue(onOk: () -> Unit, onCancel: () -> Unit)
         fun closeApplication()
         fun showNeedLocationToBeEnabledToContinue(onOk: () -> Unit, onCancel: () -> Unit?)
-        fun showAnErrorOccurredWhileFetchingWeather(retry: () -> Unit)
-        fun showInternetNotPresentDialog(retry: () -> Unit)
+        fun showErrorMessage(errorMessage: String)
     }
 
     interface Presenter<View : BaseView> : BasePresenter<View> {

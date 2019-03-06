@@ -129,19 +129,16 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
             }.show()
     }
 
-    override fun showAnErrorOccurredWhileFetchingWeather(retry: () -> Unit) {
-        AlertDialog.Builder(context).setTitle(getString(R.string.error_on_location_fetching_title))
-            .setMessage(getString(R.string.error_on_location_fetching_content))
-            .setPositiveButton("Retry") { _, _ ->
-                retry.invoke()
-            }.show()
-    }
-
-    override fun showInternetNotPresentDialog(retry: () -> Unit) {
-        AlertDialog.Builder(context).setTitle(getString(R.string.internet_not_present_title))
-            .setMessage(getString(R.string.internet_not_present_content))
-            .setPositiveButton("Retry") { _, _ ->
-                retry.invoke()
-            }.show()
+    override fun showErrorMessage(errorMessage: String) {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.exception_toast_message, errorMessage),
+            Snackbar.LENGTH_INDEFINITE
+        ).also {
+            it.setAction(R.string.ok) { _ ->
+                it.dismiss()
+            }
+            it.show()
+        }
     }
 }
