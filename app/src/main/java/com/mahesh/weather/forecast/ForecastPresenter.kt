@@ -17,6 +17,7 @@ import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
 import com.mahesh.weather.util.AppExceptions
+import com.mahesh.weather.util.FatalException
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
@@ -94,8 +95,11 @@ class ForecastPresenter @Inject constructor(
             toggleProgressBar(false)
         }, {
             view()?.toggleProgressBar(false)
-            Log.d(TAG, "exception $it")
-            view()?.showErrorMessage(AppExceptions.parse(it).errorToDisplay)
+            val exception = AppExceptions.parse(it)
+            if (exception is FatalException) {
+                Log.d(TAG, exception.throwable.toString())
+            }
+            view()?.showErrorMessage(exception.errorToDisplay)
         })
     }
 
