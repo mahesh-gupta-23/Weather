@@ -39,10 +39,13 @@ class LocationHelper @Inject constructor(
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun getLocation(onLocationFetched: (location: Location) -> Unit, onLocationDisabled: () -> Unit) {
         this.onLocationFetched = onLocationFetched
         this.onLocationDisabled = onLocationDisabled
-        checkLocationSettingAndRequestUpdate()
+        fusedLocationClient.lastLocation?.addOnSuccessListener {
+            if (it != null) onLocationFetched.invoke(it) else checkLocationSettingAndRequestUpdate()
+        }
     }
 
     @SuppressLint("MissingPermission")

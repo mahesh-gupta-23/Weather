@@ -53,8 +53,9 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setupPresenter() {
-        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java)
-        presenter.attachView(this, lifecycle)
+        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java).also {
+            it.attachView(this, lifecycle)
+        }
         lifecycle.addObserver(presenter)
     }
 
