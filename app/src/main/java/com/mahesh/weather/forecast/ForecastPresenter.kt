@@ -67,6 +67,7 @@ class ForecastPresenter @Inject constructor(
     }
 
     private fun toggleProgressBar(show: Boolean) {
+        System.out.println("view ${view()}")
         view()?.toggleProgressBar(show)
     }
 
@@ -79,15 +80,16 @@ class ForecastPresenter @Inject constructor(
     }
 
     private fun getLocationToDisplay(it: Address) = when {
-        it.subAdminArea.isNotEmpty() -> "${it.subAdminArea}, ${it.adminArea}"
-        it.locality.isNotEmpty() -> "${it.locality}, ${it.adminArea}"
+        it.subAdminArea.isNotBlank() -> "${it.subAdminArea}, ${it.adminArea}"
+        it.locality.isNotBlank() -> "${it.locality}, ${it.adminArea}"
         else -> it.adminArea
     }
 
     private fun getWeatherDataAndDisplay(location: Location) {
         launchOnUITryCatch({
             toggleProgressBar(true)
-            val currentWeather = modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
+            val currentWeather =
+                modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
             val dayForecastList = modelInteractor.getDayForecast(lat = location.latitude, lon = location.longitude)
             showCurrentWeatherData(currentWeather)
             createForecastAdapterEntity(dayForecastList)
@@ -134,7 +136,11 @@ class ForecastPresenter @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         permissionHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
@@ -143,11 +149,13 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onPermissionGranted() {
+        System.out.println("getCurrentLocationAndDisplayWeather from onPermissionGranted")
         getCurrentLocationAndDisplayWeather()
     }
 
     override fun onPermissionRejectedManyTimes(rejectedPerms: List<String>) {
         view()?.showNeedLocationPermissionDialogToContinue({
+            System.out.println("getCurrentLocationAndDisplayWeather from onPermissionRejectedManyTimes")
             getCurrentLocationAndDisplayWeather()
         }, {
             view()?.closeApplication()
@@ -156,6 +164,7 @@ class ForecastPresenter @Inject constructor(
 
     private fun onLocationDisabled() {
         view()?.showNeedLocationToBeEnabledToContinue({
+            System.out.println("getCurrentLocationAndDisplayWeather from onLocationDisabled")
             getCurrentLocationAndDisplayWeather()
         }, {
             view()?.closeApplication()

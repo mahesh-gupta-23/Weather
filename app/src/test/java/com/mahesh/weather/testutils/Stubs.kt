@@ -1,5 +1,8 @@
 package com.mahesh.weather.testutils
 
+import android.Manifest
+import android.location.Location
+import android.location.LocationManager
 import com.mahesh.weather.service.models.*
 
 interface Stubs {
@@ -58,5 +61,17 @@ interface Stubs {
         @JvmField
         val STUB_DAY_FORECAST =
             DayForecast(day = "Wed", date = "27/02", icon = "01d", maxTemperature = 27.1, minTemperature = 25.14)
+
+        @JvmField
+        val LOCATION_PERMISSIONS: List<String> =
+            listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+
+
+        @JvmField
+        val CURRENT_LOCATION: Location = Location(LocationManager.GPS_PROVIDER).apply {
+            latitude = 19.075983
+            longitude = 72.877655
+            time = System.currentTimeMillis()
+        }
     }
 }

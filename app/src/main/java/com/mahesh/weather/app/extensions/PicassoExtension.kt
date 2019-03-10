@@ -1,10 +1,10 @@
 package com.mahesh.weather.app.extensions
 
 import android.widget.ImageView
-import com.mahesh.weather.BuildConfig
+import com.mahesh.weather.R
 import com.squareup.picasso.Picasso
 
 
-fun Picasso.loadWeather(iconName: String?, imageView: ImageView) {
-    this.load("${BuildConfig.WEATHER_ICON_BASE}$iconName.png").into(imageView)
+fun Picasso.loadWeatherIn(iconName: String?, imageView: ImageView) {
+    load(imageView.context.getString(R.string.weather_image_url, iconName)).into(imageView)
 }

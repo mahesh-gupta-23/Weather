@@ -15,4 +15,5 @@
     </string>
     <string name="exception_toast_message">Oops, %1$s</string>
     <string name="ok">Ok</string>
+    <string name="weather_image_url">https://openweathermap.org/img/w/%1$s.png</string>
 </resources>

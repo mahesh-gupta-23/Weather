@@ -18,7 +18,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class PermissionHelper @Inject constructor(private val activityView: AppCompatActivity) {
+class PermissionHelper @Inject constructor(private val view: AppCompatActivity) {
 
     private val deniedPermissions: MutableList<String> = mutableListOf()
     private val granted: MutableList<String> = mutableListOf()
@@ -33,10 +33,10 @@ class PermissionHelper @Inject constructor(private val activityView: AppCompatAc
         fun onPermissionRejectedManyTimes(@NonNull rejectedPerms: List<String>)
     }
 
-    fun isPermissionGranted(permissionList: MutableList<String>): Boolean {
+    fun isPermissionGranted(permissionList: List<String>): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             permissionList.forEach {
-                if (activityView.checkSelfPermission(it) == PackageManager.PERMISSION_DENIED)
+                if (view.checkSelfPermission(it) == PackageManager.PERMISSION_DENIED)
                     return false
             }
         }
@@ -55,7 +55,7 @@ class PermissionHelper @Inject constructor(private val activityView: AppCompatAc
 
             for (permission in permissions) {
                 try {
-                    if (activityView.checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
+                    if (view.checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED) {
                         allPermissionGranted = false
                         deniedPermissions.add(permission)
                         Log.d(TAG, "denied $permission")
@@ -65,7 +65,7 @@ class PermissionHelper @Inject constructor(private val activityView: AppCompatAc
             }
 
             if (!allPermissionGranted) {
-                activityView.requestPermissions(deniedPermissions.toTypedArray(), REQUEST_PERMISSION_CODE)
+                view.requestPermissions(deniedPermissions.toTypedArray(), REQUEST_PERMISSION_CODE)
             } else {
                 permissionListener?.onPermissionGranted()
             }
@@ -87,10 +87,10 @@ class PermissionHelper @Inject constructor(private val activityView: AppCompatAc
         granted.clear()
 
         for (permission in deniedPermissions) {
-            if (activityView.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+            if (view.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
                 granted.add(permission)
             } else {
-                if (activityView.shouldShowRequestPermissionRationale(permission)) {
+                if (view.shouldShowRequestPermissionRationale(permission)) {
                     requestPermissionRationale = true
                 }
                 permissionName.append(", ")
@@ -102,9 +102,9 @@ class PermissionHelper @Inject constructor(private val activityView: AppCompatAc
         if (deniedPermissions.size > 0) {
             res = res.substring(1)
             if (requestPermissionRationale) {
-                getRequestAgainAlertDialog(activityView, res)
+                getRequestAgainAlertDialog(view, res)
             } else {//Never ask again
-                goToSettingsAlertDialog(activityView, res)
+                goToSettingsAlertDialog(view, res)
             }
         } else {
             permissionListener?.onPermissionGranted()

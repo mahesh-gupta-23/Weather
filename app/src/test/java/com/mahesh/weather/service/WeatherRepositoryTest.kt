@@ -6,16 +6,15 @@ import com.mahesh.weather.testutils.BaseTest
 import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.testutils.Stubs
 import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class WeatherRepositoryTest : BaseTest() {
-    @Mock
-    private lateinit var mockWeatherRepository: WeatherRepository
+    private val mockWeatherRepository: WeatherRepository = mock()
 
     @Test
     fun getCurrentWeatherTest() {

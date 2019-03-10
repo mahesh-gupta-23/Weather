@@ -15,6 +15,7 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     private val isViewResumed = AtomicBoolean(false)
 
     protected fun view(): View? {
+        System.out.println("resume ${isViewResumed.get()}")
         if (isViewResumed.get()) {
             viewInstance?.let { return it }
         }
@@ -25,6 +26,7 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     override fun attachView(view: View, viewLifecycle: Lifecycle) {
         viewInstance = view
         this.viewLifecycle = viewLifecycle
+        viewLifecycle.addObserver(this)
     }
 
     @Synchronized

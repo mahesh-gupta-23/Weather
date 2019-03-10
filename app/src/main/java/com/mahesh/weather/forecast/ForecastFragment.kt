@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
-import com.mahesh.weather.app.extensions.loadWeather
+import com.mahesh.weather.app.extensions.loadWeatherIn
 import com.mahesh.weather.app.extensions.toggleVisibility
 import com.mahesh.weather.databinding.FragmentForecastBinding
 import com.mahesh.weather.forecast.adapter.ForecastAdapter
@@ -53,8 +53,8 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setupPresenter() {
-        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java).also {
-            it.attachView(this, lifecycle)
+        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java).apply {
+            attachView(this@ForecastFragment, lifecycle)
         }
         lifecycle.addObserver(presenter)
     }
@@ -91,7 +91,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun loadWeatherImage(weatherIcon: String?) {
-        picasso.loadWeather(weatherIcon, binding.ivWeather)
+        picasso.loadWeatherIn(weatherIcon, binding.ivWeather)
     }
 
     override fun setHumidity(humidity: Int?) {
@@ -135,11 +135,11 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
             binding.root,
             getString(R.string.exception_toast_message, errorMessage),
             Snackbar.LENGTH_INDEFINITE
-        ).also {
-            it.setAction(R.string.ok) { _ ->
-                it.dismiss()
+        ).apply {
+            setAction(R.string.ok) {
+                dismiss()
             }
-            it.show()
+            show()
         }
     }
 }

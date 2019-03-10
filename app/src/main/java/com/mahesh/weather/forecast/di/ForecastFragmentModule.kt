@@ -8,6 +8,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.mahesh.weather.app.coroutines.CoroutinesManager
+import com.mahesh.weather.app.coroutines.DefaultCoroutinesManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.forecast.ForecastContract
 import com.mahesh.weather.forecast.ForecastModelInteractor
@@ -71,5 +72,10 @@ class ForecastFragmentModule {
     @Provides
     internal fun providesPermissionHelper(activity: AppCompatActivity): PermissionHelper {
         return PermissionHelper(activity)
+    }
+
+    @Provides
+    internal fun provideCoroutinesManager(): CoroutinesManager {
+        return DefaultCoroutinesManager()
     }
 }

@@ -8,11 +8,11 @@ import com.mahesh.weather.testutils.BaseTest
 import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.testutils.Stubs
 import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
+import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
@@ -24,18 +24,23 @@ import java.util.*
 class ForecastModelInteractorTest : BaseTest() {
 
     @Spy
-    private var asyncTasksManager: AsyncTasksManager = TestAsyncTasksManager()
+    private val asyncTasksManager: AsyncTasksManager = TestAsyncTasksManager()
+    private val mockWeatherRepository: WeatherRepository = mock()
 
-    @Mock
-    private lateinit var mockWeatherRepository: WeatherRepository
-
-    private lateinit var subject: ForecastModelInteractor
+    private lateinit var forecastModelInteractor: ForecastModelInteractor
 
     private val dateFormatToDisplay: SimpleDateFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
 
     @Before
     fun before() {
-        subject = ForecastModelInteractor(asyncTasksManager, mockWeatherRepository)
+        forecastModelInteractor = ForecastModelInteractor(asyncTasksManager, mockWeatherRepository)
+    }
+
+    @Test
+    fun getTodayDateAndTimeTest() {
+        forecastModelInteractor.getTodayDateAndTime().run {
+            assertThat(this).isEqualTo(dateFormatToDisplay.format(Date()))
+        }
     }
 
     @Test
@@ -44,7 +49,7 @@ class ForecastModelInteractorTest : BaseTest() {
             mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
 
-        subject.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
+        forecastModelInteractor.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
             verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
         }
@@ -56,16 +61,9 @@ class ForecastModelInteractorTest : BaseTest() {
             mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_WEATHER_FORECAST)
 
-        subject.getDayForecast(givenCoord.lat!!, givenCoord.lon!!).run {
+        forecastModelInteractor.getDayForecast(givenCoord.lat!!, givenCoord.lon!!).run {
             verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
             assertThat(this!![0]).isEqualTo(Stubs.STUB_DAY_FORECAST)
-        }
-    }
-
-    @Test
-    fun getTodayDateAndTimeTest() {
-        subject.getTodayDateAndTime().run {
-            assertThat(this).isEqualTo(dateFormatToDisplay.format(Date()))
         }
     }
 }

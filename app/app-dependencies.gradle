@@ -17,7 +17,7 @@ dependencies {
     androidTestImplementation deps.test.espressoIntents
     testImplementation deps.test.junit
     testImplementation deps.test.truth
-    testImplementation deps.test.mockito
+    testImplementation deps.test.mockitoKotlin
     testImplementation deps.test.robolectric
 
     // Dagger

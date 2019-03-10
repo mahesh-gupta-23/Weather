@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mahesh.weather.R
-import com.mahesh.weather.app.extensions.loadWeather
+import com.mahesh.weather.app.extensions.loadWeatherIn
 import com.mahesh.weather.databinding.ForecastRowBinding
 import com.mahesh.weather.forecast.ForecastContract
 import com.squareup.picasso.Picasso
@@ -35,12 +35,12 @@ class ForecastAdapter(
     inner class WeatherForecastViewHolder(private val binding: ForecastRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(current: ForecastAdapterModel) {
-            binding.tvDay.text = current.day
-            binding.tvDate.text = current.date
-            picasso.loadWeather(current.iconName, binding.ivWeather)
-            binding.tvMaxTemp.text = context?.getString(R.string.temp, current.maxTemperature.toString())
-            binding.tvMinTemp.text = context?.getString(R.string.temp, current.minTemperature.toString())
+        fun bind(current: ForecastAdapterModel) = with(current) {
+            binding.tvDay.text = day
+            binding.tvDate.text = date
+            picasso.loadWeatherIn(iconName, binding.ivWeather)
+            binding.tvMaxTemp.text = context?.getString(R.string.temp, maxTemperature.toString())
+            binding.tvMinTemp.text = context?.getString(R.string.temp, minTemperature.toString())
         }
     }
 }
