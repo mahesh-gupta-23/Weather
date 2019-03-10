@@ -2,6 +2,7 @@ package com.mahesh.weather.app.di
 
 import android.content.Context
 import com.google.gson.Gson
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mahesh.weather.BuildConfig
 import com.mahesh.weather.service.WeatherAPI
 import com.mahesh.weather.service.repository.WeatherRepository
@@ -43,6 +44,7 @@ class NetworkModule {
         Retrofit.Builder()
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
 
     @Provides
     @Singleton

@@ -29,6 +29,7 @@ dependencies {
     // Retrofit
     implementation deps.retrofit.core
     implementation deps.retrofit.gsonConverter
+    implementation deps.retrofit.coroutinesAdapter
 
     // okhttp
     implementation deps.okhttp.core

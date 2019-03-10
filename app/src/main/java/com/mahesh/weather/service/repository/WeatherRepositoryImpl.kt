@@ -13,17 +13,15 @@ class WeatherRepositoryImpl
         private const val UNITS = "metric"
     }
 
-    override fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather? {
+    override suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather? {
         return weatherApi
-            .getCurrentWeather(lat, lon, UNITS, BuildConfig.WEATHER_API_APP_ID)
-            .execute()
-            .body()
+            .getCurrentWeatherAsync(lat, lon, UNITS, BuildConfig.WEATHER_API_APP_ID)
+            .await()
     }
 
-    override fun getWeatherForecast(lat: Double, lon: Double): WeatherForecast? {
+    override suspend fun getWeatherForecast(lat: Double, lon: Double): WeatherForecast? {
         return weatherApi
-            .getWeatherForecast(lat, lon, UNITS, BuildConfig.WEATHER_API_APP_ID)
-            .execute()
-            .body()
+            .getWeatherForecastAsync(lat, lon, UNITS, BuildConfig.WEATHER_API_APP_ID)
+            .await()
     }
 }

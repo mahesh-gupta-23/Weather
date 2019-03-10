@@ -7,6 +7,7 @@ import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.testutils.Stubs
 import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
 import com.nhaarman.mockitokotlin2.mock
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.verify
@@ -17,7 +18,7 @@ class WeatherRepositoryTest : BaseTest() {
     private val mockWeatherRepository: WeatherRepository = mock()
 
     @Test
-    fun getCurrentWeatherTest() {
+    fun getCurrentWeatherTest() = runBlocking {
         whenever(
             mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
@@ -29,7 +30,7 @@ class WeatherRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getWeatherForecastTest() {
+    fun getWeatherForecastTest() = runBlocking {
         whenever(
             mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_WEATHER_FORECAST)
