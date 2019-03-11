@@ -87,8 +87,9 @@ class ForecastPresenterTest : BaseTest() {
             onAddressFetched = onAddressFetchedCaptor.capture(),
             onAddressError = onAddressErrorCaptor.capture()
         )
-        val customAddress = AddressStubs.CURRENT_CUSTOM_ADDRESS
-        onAddressFetchedCaptor.firstValue.invoke(customAddress)
-        verify(mockView).setLocation("${customAddress.subAdminArea}, ${customAddress.adminArea}")
+        with(AddressStubs.CURRENT_CUSTOM_ADDRESS) {
+            onAddressFetchedCaptor.firstValue.invoke(this)
+            verify(mockView).setLocation("$subAdminArea, $adminArea")
+        }
     }
 }
