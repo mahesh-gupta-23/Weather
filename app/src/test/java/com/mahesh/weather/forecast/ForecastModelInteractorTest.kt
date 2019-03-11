@@ -6,8 +6,8 @@ import com.mahesh.weather.app.coroutines.asynctaskmanager.TestAsyncTasksManager
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.utils.BaseTest
 import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
-import com.mahesh.weather.utils.stubs.Stubs
-import com.mahesh.weather.utils.stubs.Stubs.Companion.givenCoord
+import com.mahesh.weather.utils.stubs.LocationStubs
+import com.mahesh.weather.utils.stubs.ApiResponseStubs
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -47,24 +47,24 @@ class ForecastModelInteractorTest : BaseTest() {
     @Test
     fun whenGetCurrentWeather_itShouldGetFromRepository() = runBlocking {
         whenever(
-            mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-        ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
+            mockWeatherRepository.getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
+        ).thenReturn(ApiResponseStubs.STUB_CURRENT_WEATHER)
 
-        forecastModelInteractor.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!).run {
-            verify(mockWeatherRepository).getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
-            assertThat(this).isEqualTo(Stubs.STUB_CURRENT_WEATHER)
+        forecastModelInteractor.getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE).run {
+            verify(mockWeatherRepository).getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
+            assertThat(this).isEqualTo(ApiResponseStubs.STUB_CURRENT_WEATHER)
         }
     }
 
     @Test
     fun whenGetForecast_itShouldGetFromRepositoryAndParse() = runBlocking {
         whenever(
-            mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-        ).thenReturn(Stubs.STUB_WEATHER_FORECAST)
+            mockWeatherRepository.getWeatherForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
+        ).thenReturn(ApiResponseStubs.STUB_WEATHER_FORECAST)
 
-        forecastModelInteractor.getDayForecast(givenCoord.lat!!, givenCoord.lon!!).run {
-            verify(mockWeatherRepository).getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
-            assertThat(this!![0]).isEqualTo(Stubs.STUB_DAY_FORECAST)
+        forecastModelInteractor.getDayForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE).run {
+            verify(mockWeatherRepository).getWeatherForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
+            assertThat(this!![0]).isEqualTo(ApiResponseStubs.STUB_DAY_FORECAST)
         }
     }
 }

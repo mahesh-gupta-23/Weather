@@ -1,28 +1,13 @@
 package com.mahesh.weather.utils.stubs
 
-import android.Manifest
-import android.location.Address
-import android.location.Location
-import android.location.LocationManager
 import com.mahesh.weather.service.models.*
-import com.mahesh.weather.util.CustomAddress
-import com.mahesh.weather.util.LatLng
-import java.util.*
 
-private const val LATITUDE = 19.075983
-
-private const val LONGITUDE = 72.877655
-
-interface Stubs {
+class ApiResponseStubs {
     companion object {
 
         @JvmField
-        val givenCoord: Coord = Coord(LONGITUDE, LATITUDE)
-
-
-        @JvmField
         val STUB_CURRENT_WEATHER = CurrentWeather(
-            Coord(LONGITUDE, LATITUDE),
+            Coord(LocationStubs.LONGITUDE, LocationStubs.LATITUDE),
             listOf(Weather(711, "Smoke", "smoke", "50d")),
             "stations",
             Main(29.0, 29.0, 29.0, 1009.0, 0.0, 0.0, 0, 0.0),
@@ -69,35 +54,5 @@ interface Stubs {
         @JvmField
         val STUB_DAY_FORECAST =
             DayForecast(day = "Wed", date = "27/02", icon = "01d", maxTemperature = 27.1, minTemperature = 25.14)
-
-        @JvmField
-        val LOCATION_PERMISSIONS: List<String> =
-            listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-
-        @JvmField
-        val CURRENT_LOCATION: Location = with(Location(LocationManager.GPS_PROVIDER)) {
-            latitude = LATITUDE
-            longitude = LONGITUDE
-            time = System.currentTimeMillis()
-            return@with this
-        }
-
-        @JvmField
-        val CURRENT_LAT_LNG: LatLng = LatLng(LATITUDE, LONGITUDE)
-
-        @JvmField
-        val CURRENT_ADDRESS: Address = with(Address(Locale.ENGLISH)) {
-            subAdminArea = "Mumbai Suburban"
-            locality = "Mumbai"
-            adminArea = "Maharashtra"
-            return@with this
-        }
-
-        @JvmField
-        val CURRENT_CUSTOM_ADDRESS: CustomAddress =
-            CustomAddress(
-                "Maharashtra", "Mumbai Suburban", "Mumbai", null,
-                null, null, "India"
-            )
     }
 }

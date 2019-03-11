@@ -12,7 +12,8 @@ import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.LatLng
 import com.mahesh.weather.utils.BaseTest
 import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
-import com.mahesh.weather.utils.stubs.Stubs
+import com.mahesh.weather.utils.stubs.AddressStubs
+import com.mahesh.weather.utils.stubs.LocationStubs
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
@@ -53,19 +54,19 @@ class ForecastPresenterTest : BaseTest() {
 
     @Test
     fun onLocationPermissionNotPresent_requestPermission() {
-        whenever(mockPermissionHelper.isPermissionGranted(Stubs.LOCATION_PERMISSIONS)).thenReturn(false)
+        whenever(mockPermissionHelper.isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)).thenReturn(false)
 
         //When
         mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
 
         //Then
-        verify(mockPermissionHelper).isPermissionGranted(Stubs.LOCATION_PERMISSIONS)
-        verify(mockPermissionHelper).requestPermission(Stubs.LOCATION_PERMISSIONS)
+        verify(mockPermissionHelper).isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)
+        verify(mockPermissionHelper).requestPermission(LocationStubs.LOCATION_PERMISSIONS)
     }
 
     @Test
     fun onLocationFetchItShouldDisplayOnView() {
-        whenever(mockPermissionHelper.isPermissionGranted(Stubs.LOCATION_PERMISSIONS)).thenReturn(true)
+        whenever(mockPermissionHelper.isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)).thenReturn(true)
         val onLocationFetchedCaptor = argumentCaptor<(latLng: LatLng) -> Unit>()
         val onLocationDisabledCaptor = argumentCaptor<() -> Unit>()
         val onAddressFetchedCaptor = argumentCaptor<(customAddress: CustomAddress) -> Unit>()
@@ -77,16 +78,17 @@ class ForecastPresenterTest : BaseTest() {
 
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
-        onLocationFetchedCaptor.firstValue.invoke(Stubs.CURRENT_LAT_LNG)
+        onLocationFetchedCaptor.firstValue.invoke(LocationStubs.CURRENT_LAT_LNG)
         verify(mockView).toggleProgressBar(false)
         verify(mockView).setDate(mockModelInteractor.getTodayDateAndTimeFormatted(mockDate))
         verify(mockGeocoderHelper).getAddress(
             retryCount = eq(0),
-            latLng = eq(Stubs.CURRENT_LAT_LNG),
+            latLng = eq(LocationStubs.CURRENT_LAT_LNG),
             onAddressFetched = onAddressFetchedCaptor.capture(),
             onAddressError = onAddressErrorCaptor.capture()
         )
-        onAddressFetchedCaptor.firstValue.invoke(Stubs.CURRENT_CUSTOM_ADDRESS)
-        verify(mockView).setLocation("${Stubs.CURRENT_CUSTOM_ADDRESS.subAdminArea}, ${Stubs.CURRENT_CUSTOM_ADDRESS.adminArea}")
+        val customAddress = AddressStubs.CURRENT_CUSTOM_ADDRESS
+        onAddressFetchedCaptor.firstValue.invoke(customAddress)
+        verify(mockView).setLocation("${customAddress.subAdminArea}, ${customAddress.adminArea}")
     }
 }
