@@ -15,7 +15,6 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     private val isViewResumed = AtomicBoolean(false)
 
     protected fun view(): View? {
-        System.out.println("resume ${isViewResumed.get()}")
         if (isViewResumed.get()) {
             viewInstance?.let { return it }
         }

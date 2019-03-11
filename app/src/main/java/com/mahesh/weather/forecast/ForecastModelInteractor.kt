@@ -37,8 +37,8 @@ class ForecastModelInteractor @Inject constructor(
         return mapWeatherForecastToDayForecastList(forecast)
     }
 
-    override fun getTodayDateAndTime(): String {
-        return mainDateFormat.format(Date())
+    override fun getTodayDateAndTimeFormatted(date: Date): String {
+        return mainDateFormat.format(date)
     }
 
     private suspend fun mapWeatherForecastToDayForecastList(forecast: WeatherForecast?): List<DayForecast> =

@@ -53,10 +53,10 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setupPresenter() {
-        presenter = ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java).apply {
+        presenter = with(ViewModelProviders.of(this, viewModelProvider).get(ForecastPresenter::class.java)) {
             attachView(this@ForecastFragment, lifecycle)
+            return@with this
         }
-        lifecycle.addObserver(presenter)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

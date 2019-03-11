@@ -4,24 +4,23 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
-import android.location.Location
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.mahesh.weather.app.TAG
+import com.mahesh.weather.util.LatLng
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
+import com.mahesh.weather.util.getLatLng
 import javax.inject.Inject
 
 class LocationHelper @Inject constructor(
-    private val activity: FragmentActivity,
-    googleApiClient: GoogleApiClient,
-    private val locationRequest: LocationRequest?,
-    private val fusedLocationClient: FusedLocationProviderClient
+    private val activity: FragmentActivity, googleApiClient: GoogleApiClient,
+    private val locationRequest: LocationRequest?, private val fusedLocationClient: FusedLocationProviderClient
 ) {
 
-    private var onLocationFetched: ((location: Location) -> Unit)? = null
+    private var onLocationFetched: ((latLng: LatLng) -> Unit)? = null
     private var onLocationDisabled: (() -> Unit)? = null
     private var locationCallback: LocationCallback? = null
 
@@ -40,11 +39,11 @@ class LocationHelper @Inject constructor(
     }
 
     @SuppressLint("MissingPermission")
-    fun getLocation(onLocationFetched: (location: Location) -> Unit, onLocationDisabled: () -> Unit) {
+    fun getLocation(onLocationFetched: (latLng: LatLng) -> Unit, onLocationDisabled: () -> Unit) {
         this.onLocationFetched = onLocationFetched
         this.onLocationDisabled = onLocationDisabled
         fusedLocationClient.lastLocation?.addOnSuccessListener {
-            if (it != null) onLocationFetched.invoke(it) else checkLocationSettingAndRequestUpdate()
+            if (it != null) onLocationFetched.invoke(it.getLatLng()) else checkLocationSettingAndRequestUpdate()
         }
     }
 
@@ -52,7 +51,7 @@ class LocationHelper @Inject constructor(
     private fun returnLocation() {
         fusedLocationClient.lastLocation?.addOnSuccessListener {
             if (it != null) {
-                onLocationFetched?.invoke(it)
+                onLocationFetched?.invoke(it.getLatLng())
                 stopLocationUpdate()
             } else {
                 checkLocationSettingAndRequestUpdate()

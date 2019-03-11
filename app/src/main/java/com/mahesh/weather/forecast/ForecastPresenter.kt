@@ -2,8 +2,6 @@ package com.mahesh.weather.forecast
 
 import android.Manifest
 import android.content.Intent
-import android.location.Address
-import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -17,7 +15,10 @@ import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
 import com.mahesh.weather.util.AppExceptions
+import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.FatalException
+import com.mahesh.weather.util.LatLng
+import java.util.*
 import javax.inject.Inject
 
 class ForecastPresenter @Inject constructor(
@@ -55,9 +56,9 @@ class ForecastPresenter @Inject constructor(
         if (permissionHelper.isPermissionGranted(permissionList)) {
             toggleProgressBar(true)
             locationHelper.getLocation({
-                view()?.setDate(modelInteractor.getTodayDateAndTime())
+                view()?.setDate(modelInteractor.getTodayDateAndTimeFormatted(Date()))
                 showLocationData(it)
-                getWeatherDataAndDisplay(location = it)
+                getWeatherDataAndDisplay(it)
             }, {
                 onLocationDisabled()
             })
@@ -67,30 +68,33 @@ class ForecastPresenter @Inject constructor(
     }
 
     private fun toggleProgressBar(show: Boolean) {
-        System.out.println("view ${view()}")
         view()?.toggleProgressBar(show)
     }
 
-    private fun showLocationData(location: Location) {
-        geocoderHelper.getAddress(location = location, onAddressFetched = {
+    private fun showLocationData(latLng: LatLng) {
+        geocoderHelper.getAddress(latLng = latLng, onAddressFetched = {
             view()?.setLocation(getLocationToDisplay(it))
         }, onAddressError = {
             view()?.showSnackBar(it)
         })
     }
 
-    private fun getLocationToDisplay(it: Address) = when {
-        it.subAdminArea.isNotBlank() -> "${it.subAdminArea}, ${it.adminArea}"
-        it.locality.isNotBlank() -> "${it.locality}, ${it.adminArea}"
-        else -> it.adminArea
+    private fun getLocationToDisplay(customAddress: CustomAddress): String {
+        with(customAddress) {
+            return when {
+                !subAdminArea.isNullOrBlank() -> "$subAdminArea, $adminArea"
+                !locality.isNullOrBlank() -> "$locality, $adminArea"
+                else -> adminArea ?: ""
+            }
+        }
     }
 
-    private fun getWeatherDataAndDisplay(location: Location) {
+    private fun getWeatherDataAndDisplay(latLng: LatLng) {
         launchOnUITryCatch({
             toggleProgressBar(true)
             val currentWeather =
-                modelInteractor.getCurrentWeather(lat = location.latitude, lon = location.longitude)
-            val dayForecastList = modelInteractor.getDayForecast(lat = location.latitude, lon = location.longitude)
+                modelInteractor.getCurrentWeather(lat = latLng.latitude, lon = latLng.longitude)
+            val dayForecastList = modelInteractor.getDayForecast(lat = latLng.latitude, lon = latLng.longitude)
             showCurrentWeatherData(currentWeather)
             createForecastAdapterEntity(dayForecastList)
             view()?.notifyForecastDataChanged()
@@ -149,13 +153,11 @@ class ForecastPresenter @Inject constructor(
     }
 
     override fun onPermissionGranted() {
-        System.out.println("getCurrentLocationAndDisplayWeather from onPermissionGranted")
         getCurrentLocationAndDisplayWeather()
     }
 
     override fun onPermissionRejectedManyTimes(rejectedPerms: List<String>) {
         view()?.showNeedLocationPermissionDialogToContinue({
-            System.out.println("getCurrentLocationAndDisplayWeather from onPermissionRejectedManyTimes")
             getCurrentLocationAndDisplayWeather()
         }, {
             view()?.closeApplication()
@@ -164,7 +166,6 @@ class ForecastPresenter @Inject constructor(
 
     private fun onLocationDisabled() {
         view()?.showNeedLocationToBeEnabledToContinue({
-            System.out.println("getCurrentLocationAndDisplayWeather from onLocationDisabled")
             getCurrentLocationAndDisplayWeather()
         }, {
             view()?.closeApplication()

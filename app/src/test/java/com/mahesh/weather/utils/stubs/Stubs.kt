@@ -1,20 +1,28 @@
-package com.mahesh.weather.testutils
+package com.mahesh.weather.utils.stubs
 
 import android.Manifest
+import android.location.Address
 import android.location.Location
 import android.location.LocationManager
 import com.mahesh.weather.service.models.*
+import com.mahesh.weather.util.CustomAddress
+import com.mahesh.weather.util.LatLng
+import java.util.*
+
+private const val LATITUDE = 19.075983
+
+private const val LONGITUDE = 72.877655
 
 interface Stubs {
     companion object {
 
         @JvmField
-        val givenCoord: Coord = Coord(72.877655, 19.075983)
+        val givenCoord: Coord = Coord(LONGITUDE, LATITUDE)
 
 
         @JvmField
         val STUB_CURRENT_WEATHER = CurrentWeather(
-            Coord(72.877655, 19.075983),
+            Coord(LONGITUDE, LATITUDE),
             listOf(Weather(711, "Smoke", "smoke", "50d")),
             "stations",
             Main(29.0, 29.0, 29.0, 1009.0, 0.0, 0.0, 0, 0.0),
@@ -66,12 +74,30 @@ interface Stubs {
         val LOCATION_PERMISSIONS: List<String> =
             listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
+        @JvmField
+        val CURRENT_LOCATION: Location = with(Location(LocationManager.GPS_PROVIDER)) {
+            latitude = LATITUDE
+            longitude = LONGITUDE
+            time = System.currentTimeMillis()
+            return@with this
+        }
 
         @JvmField
-        val CURRENT_LOCATION: Location = Location(LocationManager.GPS_PROVIDER).apply {
-            latitude = 19.075983
-            longitude = 72.877655
-            time = System.currentTimeMillis()
+        val CURRENT_LAT_LNG: LatLng = LatLng(LATITUDE, LONGITUDE)
+
+        @JvmField
+        val CURRENT_ADDRESS: Address = with(Address(Locale.ENGLISH)) {
+            subAdminArea = "Mumbai Suburban"
+            locality = "Mumbai"
+            adminArea = "Maharashtra"
+            return@with this
         }
+
+        @JvmField
+        val CURRENT_CUSTOM_ADDRESS: CustomAddress =
+            CustomAddress(
+                "Maharashtra", "Mumbai Suburban", "Mumbai", null,
+                null, null, "India"
+            )
     }
 }

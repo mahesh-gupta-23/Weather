@@ -4,10 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.TestAsyncTasksManager
 import com.mahesh.weather.service.repository.WeatherRepository
-import com.mahesh.weather.testutils.BaseTest
-import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
-import com.mahesh.weather.testutils.Stubs
-import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
+import com.mahesh.weather.utils.BaseTest
+import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
+import com.mahesh.weather.utils.stubs.Stubs
+import com.mahesh.weather.utils.stubs.Stubs.Companion.givenCoord
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -37,14 +37,15 @@ class ForecastModelInteractorTest : BaseTest() {
     }
 
     @Test
-    fun getTodayDateAndTimeTest() {
-        forecastModelInteractor.getTodayDateAndTime().run {
-            assertThat(this).isEqualTo(dateFormatToDisplay.format(Date()))
+    fun whenGivenTodayDate_itShouldBeFormattedInTheGivenFormat() {
+        val mockDate: Date = mock()
+        forecastModelInteractor.getTodayDateAndTimeFormatted(mockDate).run {
+            assertThat(this).isEqualTo(dateFormatToDisplay.format(mockDate))
         }
     }
 
     @Test
-    fun getCurrentWeatherTest() = runBlocking {
+    fun whenGetCurrentWeather_itShouldGetFromRepository() = runBlocking {
         whenever(
             mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
@@ -56,7 +57,7 @@ class ForecastModelInteractorTest : BaseTest() {
     }
 
     @Test
-    fun getWeatherForecast() = runBlocking {
+    fun whenGetForecast_itShouldGetFromRepositoryAndParse() = runBlocking {
         whenever(
             mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_WEATHER_FORECAST)

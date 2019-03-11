@@ -2,10 +2,10 @@ package com.mahesh.weather.service
 
 import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.service.repository.WeatherRepository
-import com.mahesh.weather.testutils.BaseTest
-import com.mahesh.weather.testutils.KotlinTestUtils.Companion.whenever
-import com.mahesh.weather.testutils.Stubs
-import com.mahesh.weather.testutils.Stubs.Companion.givenCoord
+import com.mahesh.weather.utils.BaseTest
+import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
+import com.mahesh.weather.utils.stubs.Stubs
+import com.mahesh.weather.utils.stubs.Stubs.Companion.givenCoord
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -18,7 +18,7 @@ class WeatherRepositoryTest : BaseTest() {
     private val mockWeatherRepository: WeatherRepository = mock()
 
     @Test
-    fun getCurrentWeatherTest() = runBlocking {
+    fun whenGetCurrentWeather_itShouldInvokeApi() = runBlocking {
         whenever(
             mockWeatherRepository.getCurrentWeather(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_CURRENT_WEATHER)
@@ -30,7 +30,7 @@ class WeatherRepositoryTest : BaseTest() {
     }
 
     @Test
-    fun getWeatherForecastTest() = runBlocking {
+    fun whenGetForecast_itShouldInvokeApi() = runBlocking {
         whenever(
             mockWeatherRepository.getWeatherForecast(givenCoord.lat!!, givenCoord.lon!!)
         ).thenReturn(Stubs.STUB_WEATHER_FORECAST)

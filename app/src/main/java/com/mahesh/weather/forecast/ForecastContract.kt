@@ -6,6 +6,7 @@ import com.mahesh.weather.app.presenter.BaseView
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
+import java.util.*
 
 class ForecastContract {
     interface View : BaseView {
@@ -37,6 +38,6 @@ class ForecastContract {
     interface ModelInteractor {
         suspend fun getCurrentWeather(lat: Double, lon: Double): CurrentWeather?
         suspend fun getDayForecast(lat: Double, lon: Double): List<DayForecast>?
-        fun getTodayDateAndTime(): String
+        fun getTodayDateAndTimeFormatted(date: Date): String
     }
 }
