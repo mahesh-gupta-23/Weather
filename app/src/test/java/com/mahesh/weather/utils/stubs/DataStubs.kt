@@ -1,8 +1,9 @@
 package com.mahesh.weather.utils.stubs
 
+import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.*
 
-class ApiResponseStubs {
+class DataStubs {
     companion object {
 
         @JvmField
@@ -52,7 +53,13 @@ class ApiResponseStubs {
         )
 
         @JvmField
-        val STUB_DAY_FORECAST =
+        val STUB_DAY_FORECAST: List<DayForecast> = listOf(
             DayForecast(day = "Wed", date = "27/02", icon = "01d", maxTemperature = 27.1, minTemperature = 25.14)
+        )
+
+        @JvmField
+        val ADAPTER_ENTITY: ForecastAdapterModel = with(STUB_DAY_FORECAST[0]) {
+            ForecastAdapterModel(day, date, icon, maxTemperature, minTemperature)
+        }
     }
 }

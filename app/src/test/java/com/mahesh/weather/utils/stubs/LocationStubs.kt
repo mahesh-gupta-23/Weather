@@ -8,8 +8,8 @@ import com.mahesh.weather.util.LatLng
 class LocationStubs {
     companion object {
         const val LATITUDE = 19.075983
-
         const val LONGITUDE = 72.877655
+        const val ON_ADDRESS_ERROR = "No Address Found"
 
         @JvmField
         val LOCATION_PERMISSIONS: List<String> =

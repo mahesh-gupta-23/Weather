@@ -127,15 +127,17 @@ class ForecastPresenter @Inject constructor(
     }
 
     private fun showCurrentWeatherData(currentWeather: CurrentWeather?) {
-        if (currentWeather != null) {
-            view()?.setCurrentTemp(currentWeather.main?.temp)
-            if (currentWeather.weather.isNullOrEmpty()) {
+        if (currentWeather == null)
+            return
+        with(currentWeather) {
+            view()?.setCurrentTemp(main?.temp)
+            if (weather.isNullOrEmpty()) {
                 view()?.toggleWeatherImageVisibility(false)
             } else {
                 view()?.toggleWeatherImageVisibility(true)
-                view()?.loadWeatherImage(currentWeather.weather[0].icon)
+                view()?.loadWeatherImage(weather[0].icon)
             }
-            view()?.setHumidity(currentWeather.main?.humidity)
+            view()?.setHumidity(main?.humidity)
         }
     }
 

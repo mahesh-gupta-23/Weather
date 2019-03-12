@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.service.repository.WeatherRepository
 import com.mahesh.weather.utils.BaseTest
 import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
+import com.mahesh.weather.utils.stubs.DataStubs
 import com.mahesh.weather.utils.stubs.LocationStubs
-import com.mahesh.weather.utils.stubs.ApiResponseStubs
 import com.nhaarman.mockitokotlin2.mock
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -21,11 +21,11 @@ class WeatherRepositoryTest : BaseTest() {
     fun whenGetCurrentWeather_itShouldInvokeApi() = runBlocking {
         whenever(
             mockWeatherRepository.getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
-        ).thenReturn(ApiResponseStubs.STUB_CURRENT_WEATHER)
+        ).thenReturn(DataStubs.STUB_CURRENT_WEATHER)
 
         with(mockWeatherRepository.getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)) {
             verify(mockWeatherRepository).getCurrentWeather(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
-            assertThat(this).isEqualTo(ApiResponseStubs.STUB_CURRENT_WEATHER)
+            assertThat(this).isEqualTo(DataStubs.STUB_CURRENT_WEATHER)
         }
     }
 
@@ -33,11 +33,11 @@ class WeatherRepositoryTest : BaseTest() {
     fun whenGetForecast_itShouldInvokeApi() = runBlocking {
         whenever(
             mockWeatherRepository.getWeatherForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
-        ).thenReturn(ApiResponseStubs.STUB_WEATHER_FORECAST)
+        ).thenReturn(DataStubs.STUB_WEATHER_FORECAST)
 
         with(mockWeatherRepository.getWeatherForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)) {
             verify(mockWeatherRepository).getWeatherForecast(LocationStubs.LATITUDE, LocationStubs.LONGITUDE)
-            assertThat(this).isEqualTo(ApiResponseStubs.STUB_WEATHER_FORECAST)
+            assertThat(this).isEqualTo(DataStubs.STUB_WEATHER_FORECAST)
         }
     }
 }
