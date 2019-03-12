@@ -1,4 +1,4 @@
-package com.mahesh.weather.utils.stubs
+package com.mahesh.weather.test_utils.stubs
 
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.*

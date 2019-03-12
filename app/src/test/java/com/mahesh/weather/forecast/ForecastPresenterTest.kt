@@ -8,18 +8,18 @@ import com.mahesh.weather.app.coroutines.TestCoroutinesManager
 import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
+import com.mahesh.weather.test_utils.BaseTest
+import com.mahesh.weather.test_utils.KotlinTestUtils.Companion.whenever
+import com.mahesh.weather.test_utils.stubs.AddressStubs
+import com.mahesh.weather.test_utils.stubs.DataStubs
+import com.mahesh.weather.test_utils.stubs.LocationStubs
 import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.LatLng
-import com.mahesh.weather.utils.BaseTest
-import com.mahesh.weather.utils.KotlinTestUtils.Companion.whenever
-import com.mahesh.weather.utils.stubs.AddressStubs
-import com.mahesh.weather.utils.stubs.DataStubs
-import com.mahesh.weather.utils.stubs.LocationStubs
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,6 +42,7 @@ class ForecastPresenterTest : BaseTest() {
     private val mockLifecycle = LifecycleRegistry(mock(LifecycleOwner::class.java))
 
     private lateinit var forecastPresenter: ForecastPresenter
+
 
     @Before
     fun before() {
@@ -247,6 +248,4 @@ class ForecastPresenterTest : BaseTest() {
         assertEquals(DataStubs.ADAPTER_ENTITY, forecastPresenter.getAdapterEntity(0))
         verify(mockView).notifyForecastDataChanged()
     }
-
-
 }

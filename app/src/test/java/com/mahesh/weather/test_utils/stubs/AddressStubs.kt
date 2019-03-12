@@ -1,4 +1,4 @@
-package com.mahesh.weather.utils.stubs
+package com.mahesh.weather.test_utils.stubs
 
 import android.location.Address
 import com.mahesh.weather.util.CustomAddress
