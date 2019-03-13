@@ -43,7 +43,6 @@ class ForecastPresenterTest : BaseTest() {
 
     private lateinit var forecastPresenter: ForecastPresenter
 
-
     @Before
     fun before() {
         forecastPresenter = ForecastPresenter(
@@ -61,7 +60,7 @@ class ForecastPresenterTest : BaseTest() {
         whenever(mockPermissionHelper.isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)).thenReturn(false)
 
         //When
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         //Then
         verify(mockPermissionHelper).isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)
@@ -76,7 +75,7 @@ class ForecastPresenterTest : BaseTest() {
         //when
         //Setting isPermissionGranted to true initially as when onCreate is invoked the presenter tries to check for location and fetch data
         whenever(mockPermissionHelper.isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)).thenReturn(true)
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         //Setting is permission granted to false as we now need to test
         whenever(mockPermissionHelper.isPermissionGranted(LocationStubs.LOCATION_PERMISSIONS)).thenReturn(false)
         forecastPresenter.onPermissionRejectedManyTimes(listOf())
@@ -106,7 +105,7 @@ class ForecastPresenterTest : BaseTest() {
         val onCancel = argumentCaptor<() -> Unit>()
 
         //when
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
         onLocationDisabledCaptor.firstValue.invoke()
 
@@ -136,7 +135,7 @@ class ForecastPresenterTest : BaseTest() {
         val mockDate: Date = mock()
 
         //when
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
@@ -164,7 +163,7 @@ class ForecastPresenterTest : BaseTest() {
         val onAddressErrorCaptor = argumentCaptor<(error: String) -> Unit>()
 
         //when
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
@@ -197,7 +196,7 @@ class ForecastPresenterTest : BaseTest() {
         val onLocationDisabledCaptor = argumentCaptor<() -> Unit>()
 
         //when
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
@@ -233,7 +232,7 @@ class ForecastPresenterTest : BaseTest() {
         val onLocationDisabledCaptor = argumentCaptor<() -> Unit>()
 
         //when
-        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        mockLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
 
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())

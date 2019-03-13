@@ -48,7 +48,6 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         adapter = ForecastAdapter(context, presenter as ForecastContract.AdapterPresenter, picasso)
         binding.rvForecast.layoutManager = GridLayoutManager(context, 5)
         binding.rvForecast.adapter = adapter
-        toggleProgressBar(false)
         return binding.root
     }
 

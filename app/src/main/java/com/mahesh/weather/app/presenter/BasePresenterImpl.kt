@@ -12,10 +12,10 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
 
     private var viewInstance: View? = null
     private var viewLifecycle: Lifecycle? = null
-    private val isViewResumed = AtomicBoolean(false)
+    private val canAccessView = AtomicBoolean(false)
 
     protected fun view(): View? {
-        if (isViewResumed.get()) {
+        if (canAccessView.get()) {
             viewInstance?.let { return it }
         }
         return null
@@ -31,7 +31,10 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     private fun onViewStateChanged() {
-        isViewResumed.set(viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false)
+        canAccessView.set(
+            viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false ||
+                    viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.CREATED) ?: false
+        )
     }
 
     @Synchronized
