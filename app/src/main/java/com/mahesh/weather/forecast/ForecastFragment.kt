@@ -4,6 +4,7 @@ package com.mahesh.weather.forecast
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
+import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.extensions.loadWeatherIn
 import com.mahesh.weather.app.extensions.toggleVisibility
 import com.mahesh.weather.databinding.FragmentForecastBinding
@@ -44,6 +46,11 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
+        Log.e(TAG,"OnCreateFragmentCalled")
+
+//        System.out.println("OnCreateFragmentCalled")
+//        Toast.makeText(context, "OnCreateFragmentCalled", Toast.LENGTH_LONG).show()
+
         setupPresenter()
         adapter = ForecastAdapter(context, presenter as ForecastContract.AdapterPresenter, picasso)
         binding.rvForecast.layoutManager = GridLayoutManager(context, 5)
@@ -70,6 +77,8 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setDate(todayDateAndTime: String) {
+        Log.e(TAG,"setDate $todayDateAndTime")
+//        Toast.makeText(context, "setDate $todayDateAndTime", Toast.LENGTH_LONG).show()
         binding.tvDate.text = todayDateAndTime
     }
 

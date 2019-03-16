@@ -6,7 +6,7 @@ def versions = [
         constraintLayout         : "1.1.3",
         appcompat                : "1.0.2",
         location                 : "16.0.0",
-        coreTesting              : "1.0.0",
+        androidXTestVersion      : "1.1.0",
         coroutines               : "1.1.0",
         espresso                 : "3.1.1",
         dagger                   : "2.20",
@@ -21,7 +21,7 @@ def versions = [
         picasso                  : "2.71828",
         chuck                    : "1.1.0",
         mockitoKotlin            : "2.1.0",
-        robolectric              : "4.2"
+        mockitoAndroid           : "2.25.0"
 ]
 
 def deps = [:]
@@ -51,15 +51,16 @@ def playServices = [
 deps.playServices = playServices
 
 def test = [
-        //        core           : "androidx.arch.core:core-testing:$versions.coreTesting",
-        core           : "androidx.test:core:$versions.coreTesting",
+        runner         : "androidx.test:runner:$versions.androidXTestVersion",
+        rules          : "androidx.test:rules:$versions.androidXTestVersion",
+        junitExt       : "androidx.test.ext:junit:$versions.androidXTestVersion",
         espresso       : "androidx.test.espresso:espresso-contrib:$versions.espresso",
         espressoCore   : "androidx.test.espresso:espresso-core:$versions.espresso",
         espressoIntents: "androidx.test.espresso:espresso-intents:$versions.espresso",
         junit          : "junit:junit:$versions.junit",
         truth          : "com.google.truth:truth:$versions.truth",
         mockitoKotlin  : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin",
-        robolectric    : "org.robolectric:robolectric:$versions.robolectric",
+        mockitoAndroid : "org.mockito:mockito-android:$versions.mockitoAndroid"
 ]
 deps.test = test
 

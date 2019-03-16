@@ -31,6 +31,10 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
     private fun onViewStateChanged() {
+        updateViewAccess()
+    }
+
+    private fun updateViewAccess() {
         canAccessView.set(
             viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.RESUMED) ?: false ||
                     viewLifecycle?.currentState?.isAtLeast(Lifecycle.State.CREATED) ?: false
@@ -40,6 +44,7 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     private fun onViewCreate() {
+        updateViewAccess()
         onCreate()
     }
 
@@ -50,6 +55,12 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
     }
 
     @Synchronized
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    private fun onViewPaused() {
+        onPause()
+    }
+
+    @Synchronized
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     private fun onViewDestroyed() {
         viewInstance = null
@@ -57,9 +68,16 @@ constructor(coroutinesManager: CoroutinesManager) : ViewModel(), CoroutinesManag
         cancelAllCoroutines()
     }
 
-    abstract fun onCreate()
+    open fun onCreate() {
 
-    abstract fun onResume()
+    }
 
+    open fun onResume() {
+
+    }
+
+    open fun onPause() {
+
+    }
 
 }

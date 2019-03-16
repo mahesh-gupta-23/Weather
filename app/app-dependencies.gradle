@@ -11,14 +11,18 @@ dependencies {
     implementation deps.playServices.location
 
     // Testing dependencies
-    androidTestImplementation deps.test.core
+    implementation 'androidx.fragment:fragment:1.1.0-alpha04'
+
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.rules
+    androidTestImplementation deps.test.junitExt
     androidTestImplementation deps.test.espresso
     androidTestImplementation deps.test.espressoCore
     androidTestImplementation deps.test.espressoIntents
     testImplementation deps.test.junit
     testImplementation deps.test.truth
     testImplementation deps.test.mockitoKotlin
-    testImplementation deps.test.robolectric
+    androidTestImplementation deps.test.mockitoAndroid
 
     // Dagger
     implementation deps.dagger.android

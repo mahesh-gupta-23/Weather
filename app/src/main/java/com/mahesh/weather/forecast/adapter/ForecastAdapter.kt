@@ -11,7 +11,7 @@ import com.mahesh.weather.databinding.ForecastRowBinding
 import com.mahesh.weather.forecast.ForecastContract
 import com.squareup.picasso.Picasso
 
-class ForecastAdapter(
+open class ForecastAdapter(
     private val context: Context?,
     private val presenter: ForecastContract.AdapterPresenter,
     private val picasso: Picasso

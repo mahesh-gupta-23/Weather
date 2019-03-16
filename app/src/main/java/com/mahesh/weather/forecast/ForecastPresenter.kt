@@ -21,7 +21,7 @@ import com.mahesh.weather.util.LatLng
 import java.util.*
 import javax.inject.Inject
 
-class ForecastPresenter @Inject constructor(
+open class ForecastPresenter @Inject constructor(
     coroutinesManager: CoroutinesManager, private val locationHelper: LocationHelper,
     private val permissionHelper: PermissionHelper, private val geocoderHelper: GeocoderHelper,
     private val modelInteractor: ForecastContract.ModelInteractor
@@ -42,10 +42,6 @@ class ForecastPresenter @Inject constructor(
     override fun onCreate() {
         toggleProgressBar(false)
         getCurrentLocationAndDisplayWeather()
-    }
-
-    override fun onResume() {
-        Log.d(TAG, "onResume")
     }
 
     override fun getAdapterEntity(position: Int): ForecastAdapterModel = adapterEntityList[position]
