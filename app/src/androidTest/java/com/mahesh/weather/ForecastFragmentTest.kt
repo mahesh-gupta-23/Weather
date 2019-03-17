@@ -225,8 +225,7 @@ class ForecastFragmentTest {
         whenever(presenter.getAdapterEntity(0)).thenReturn(adapterModel)
 
         with(adapterModel) {
-            val recyclerView = RecyclerViewMatcher.withRecyclerView(R.id.rv_forecast)
-            with(recyclerView) {
+            with(RecyclerViewMatcher.withRecyclerView(R.id.rv_forecast)) {
                 onView(atPositionOnView(0, R.id.tv_day)).check(matches(withText(day)))
                 onView(atPositionOnView(0, R.id.tv_date)).check(matches(withText(date)))
                 onView(atPositionOnView(0, R.id.tv_max_temp)).check(
