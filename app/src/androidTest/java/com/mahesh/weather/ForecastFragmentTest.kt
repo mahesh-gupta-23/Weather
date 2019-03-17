@@ -9,9 +9,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.mahesh.weather.forecast.ForecastFragment
 import com.mahesh.weather.forecast.ForecastPresenter
+import com.mahesh.weather.test_utils.stubs.DataStubs
 import com.mahesh.weather.testing.SingleFragmentActivity
+import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
 import com.mahesh.weather.util.REQUEST_PERMISSION_CODE
+import com.mahesh.weather.util.RecyclerViewMatcher
 import com.mahesh.weather.util.ViewModelProviderFactory
 import com.squareup.picasso.Picasso
 import org.hamcrest.Matchers.not
@@ -213,4 +216,42 @@ class ForecastFragmentTest {
         forecastFragment.onActivityResult(REQUEST_PERMISSION_CODE, resultCode, data)
         verify(presenter, never()).onActivityResult(REQUEST_PERMISSION_CODE, resultCode, data)
     }
+
+    @Test
+    fun recyclerViewShouldDisplayAllData() {
+        whenever(presenter.getAdapterEntityCount()).thenReturn(1)
+        val adapterModel = DataStubs.ADAPTER_ENTITY
+        val context = forecastFragment.context
+        whenever(presenter.getAdapterEntity(0)).thenReturn(adapterModel)
+
+        with(adapterModel) {
+            val recyclerView = RecyclerViewMatcher.withRecyclerView(R.id.rv_forecast)
+            with(recyclerView) {
+                onView(atPositionOnView(0, R.id.tv_day)).check(matches(withText(day)))
+                onView(atPositionOnView(0, R.id.tv_date)).check(matches(withText(date)))
+                onView(atPositionOnView(0, R.id.tv_max_temp)).check(
+                    matches(
+                        withText(
+                            context?.getString(
+                                R.string.temp,
+                                maxTemperature.toString()
+                            )
+                        )
+                    )
+                )
+                onView(atPositionOnView(0, R.id.tv_min_temp)).check(
+                    matches(
+                        withText(
+                            context?.getString(
+                                R.string.temp,
+                                minTemperature.toString()
+                            )
+                        )
+                    )
+                )
+            }
+
+        }
+    }
+
 }

@@ -1,11 +1,13 @@
 package com.mahesh.weather.forecast.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mahesh.weather.R
+import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.extensions.loadWeatherIn
 import com.mahesh.weather.databinding.ForecastRowBinding
 import com.mahesh.weather.forecast.ForecastContract
@@ -29,6 +31,7 @@ open class ForecastAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherForecastViewHolder, position: Int) {
+        Log.d(TAG, "position $position")
         holder.bind(presenter.getAdapterEntity(position))
     }
 
