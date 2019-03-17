@@ -10,11 +10,13 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.mahesh.weather.app.TAG
+import com.mahesh.weather.testing.OpenForTesting
 import com.mahesh.weather.util.LatLng
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
 import com.mahesh.weather.util.getLatLng
 import javax.inject.Inject
 
+@OpenForTesting
 class LocationHelper @Inject constructor(
     private val activity: FragmentActivity, googleApiClient: GoogleApiClient,
     private val locationRequest: LocationRequest?, private val fusedLocationClient: FusedLocationProviderClient

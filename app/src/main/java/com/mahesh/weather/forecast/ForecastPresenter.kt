@@ -14,6 +14,7 @@ import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
+import com.mahesh.weather.testing.OpenForTesting
 import com.mahesh.weather.util.AppExceptions
 import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.FatalException
@@ -21,7 +22,8 @@ import com.mahesh.weather.util.LatLng
 import java.util.*
 import javax.inject.Inject
 
-open class ForecastPresenter @Inject constructor(
+@OpenForTesting
+class ForecastPresenter @Inject constructor(
     coroutinesManager: CoroutinesManager, private val locationHelper: LocationHelper,
     private val permissionHelper: PermissionHelper, private val geocoderHelper: GeocoderHelper,
     private val modelInteractor: ForecastContract.ModelInteractor

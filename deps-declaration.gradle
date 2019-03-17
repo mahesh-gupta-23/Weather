@@ -27,11 +27,12 @@ def versions = [
 def deps = [:]
 
 def build = [
-        compileSdkVersion  : 28,
-        minSdkVersion      : 19,
-        targetSdkVersion   : 28,
-        androidGradlePlugin: "com.android.tools.build:gradle:$versions.androidGradlePlugin",
-        kotlinGradlePlugin : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        compileSdkVersion        : 28,
+        minSdkVersion            : 19,
+        targetSdkVersion         : 28,
+        androidGradlePlugin      : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
+        kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        kotlinAllOpenGradlePlugin: "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
 ]
 deps.build = build
 
@@ -54,9 +55,8 @@ def test = [
         runner         : "androidx.test:runner:$versions.androidXTestVersion",
         rules          : "androidx.test:rules:$versions.androidXTestVersion",
         junitExt       : "androidx.test.ext:junit:$versions.androidXTestVersion",
-        espresso       : "androidx.test.espresso:espresso-contrib:$versions.espresso",
         espressoCore   : "androidx.test.espresso:espresso-core:$versions.espresso",
-        espressoIntents: "androidx.test.espresso:espresso-intents:$versions.espresso",
+        espressoContrib: "androidx.test.espresso:espresso-contrib:$versions.espresso",
         junit          : "junit:junit:$versions.junit",
         truth          : "com.google.truth:truth:$versions.truth",
         mockitoKotlin  : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin",

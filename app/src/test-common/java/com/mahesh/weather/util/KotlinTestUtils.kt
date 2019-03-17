@@ -1,6 +1,6 @@
-package com.mahesh.weather.test_utils
+package com.mahesh.weather.util
 
-import org.mockito.Matchers.eq
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mockito.`when`
 import org.mockito.stubbing.OngoingStubbing
 

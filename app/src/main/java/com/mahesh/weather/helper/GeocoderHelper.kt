@@ -6,11 +6,13 @@ import android.location.Geocoder
 import com.mahesh.weather.R
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
+import com.mahesh.weather.testing.OpenForTesting
 import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.LatLng
 import com.mahesh.weather.util.getCustomAddress
 import javax.inject.Inject
 
+@OpenForTesting
 class GeocoderHelper @Inject constructor(
     coroutinesManager: CoroutinesManager, private val geocoder: Geocoder,
     private val asyncTasksManager: AsyncTasksManager, private val context: Context

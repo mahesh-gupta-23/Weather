@@ -3,10 +3,12 @@ package com.mahesh.weather.app.coroutines
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryCatch
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryCatchFinally
 import com.mahesh.weather.app.coroutines.CoroutinesUtils.Companion.tryFinally
+import com.mahesh.weather.testing.OpenForTesting
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 
-open class TestCoroutinesManager : CoroutinesManager {
+@OpenForTesting
+class TestCoroutinesManager : CoroutinesManager {
 
     override fun launchOnUI(block: suspend CoroutineScope.() -> Unit) {
         runBlocking { block() }

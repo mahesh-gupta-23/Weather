@@ -8,16 +8,17 @@ import com.mahesh.weather.app.coroutines.TestCoroutinesManager
 import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
-import com.mahesh.weather.test_utils.BaseTest
-import com.mahesh.weather.test_utils.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.test_utils.stubs.AddressStubs
 import com.mahesh.weather.test_utils.stubs.DataStubs
 import com.mahesh.weather.test_utils.stubs.LocationStubs
+import com.mahesh.weather.util.BaseTest
 import com.mahesh.weather.util.CustomAddress
+import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.util.LatLng
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -140,7 +141,7 @@ class ForecastPresenterTest : BaseTest() {
         //then
         verify(mockLocationHelper).getLocation(onLocationFetchedCaptor.capture(), onLocationDisabledCaptor.capture())
         onLocationFetchedCaptor.firstValue.invoke(LocationStubs.CURRENT_LAT_LNG)
-        verify(mockView).toggleProgressBar(false)
+        verify(mockView, times(2)).toggleProgressBar(false)
         verify(mockView).setDate(mockModelInteractor.getTodayDateAndTimeFormatted(mockDate))
         verify(mockGeocoderHelper).getAddress(
             retryCount = eq(0),
@@ -207,7 +208,7 @@ class ForecastPresenterTest : BaseTest() {
                 LocationStubs.CURRENT_LAT_LNG.longitude
             )
         }
-        verify(mockView).toggleProgressBar(false)
+        verify(mockView,times(2)).toggleProgressBar(false)
         with(DataStubs.STUB_CURRENT_WEATHER) {
             verify(mockView).setCurrentTemp(main?.temp)
             verify(mockView).toggleWeatherImageVisibility(true)
@@ -243,7 +244,7 @@ class ForecastPresenterTest : BaseTest() {
                 LocationStubs.CURRENT_LAT_LNG.longitude
             )
         }
-        verify(mockView).toggleProgressBar(false)
+        verify(mockView, times(2)).toggleProgressBar(false)
         assertEquals(DataStubs.ADAPTER_ENTITY, forecastPresenter.getAdapterEntity(0))
         verify(mockView).notifyForecastDataChanged()
     }

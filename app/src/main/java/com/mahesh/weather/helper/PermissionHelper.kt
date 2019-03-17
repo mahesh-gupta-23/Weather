@@ -13,11 +13,13 @@ import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.mahesh.weather.app.TAG
+import com.mahesh.weather.testing.OpenForTesting
 import com.mahesh.weather.util.REQUEST_PERMISSION_CODE
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
+@OpenForTesting
 class PermissionHelper @Inject constructor(private val view: AppCompatActivity) {
 
     private val deniedPermissions: MutableList<String> = mutableListOf()

@@ -1,4 +1,4 @@
-package com.mahesh.weather.test_utils
+package com.mahesh.weather.util
 
 import org.junit.Rule
 import org.mockito.junit.MockitoJUnit

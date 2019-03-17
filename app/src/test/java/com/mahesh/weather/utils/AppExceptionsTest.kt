@@ -1,7 +1,7 @@
 package com.mahesh.weather.utils
 
-import com.mahesh.weather.test_utils.BaseTest
 import com.mahesh.weather.util.AppExceptions
+import com.mahesh.weather.util.BaseTest
 import com.mahesh.weather.util.NoNetworkException
 import org.junit.Test
 import org.junit.runner.RunWith

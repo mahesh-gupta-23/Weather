@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath deps.build.androidGradlePlugin
         classpath deps.build.kotlinGradlePlugin
+        classpath deps.build.kotlinAllOpenGradlePlugin
     }
 }
 

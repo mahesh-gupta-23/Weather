@@ -1,7 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
 apply plugin: 'kotlin-android-extensions'
+
+allOpen {
+    //allows mocking for classes w/o directly opening them for release builds
+    annotation 'com.mahesh.weather.testing.OpenClass'
+}
 
 android {
     compileSdkVersion deps.build.compileSdkVersion
@@ -37,6 +43,10 @@ android {
     testOptions {
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
+    }
+    sourceSets {
+        androidTest.java.srcDirs += "src/test-common/java"
+        test.java.srcDirs += "src/test-common/java"
     }
 }
 

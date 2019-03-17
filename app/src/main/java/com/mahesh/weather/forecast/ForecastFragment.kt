@@ -46,11 +46,6 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forecast, container, false)
 
-        Log.e(TAG,"OnCreateFragmentCalled")
-
-//        System.out.println("OnCreateFragmentCalled")
-//        Toast.makeText(context, "OnCreateFragmentCalled", Toast.LENGTH_LONG).show()
-
         setupPresenter()
         adapter = ForecastAdapter(context, presenter as ForecastContract.AdapterPresenter, picasso)
         binding.rvForecast.layoutManager = GridLayoutManager(context, 5)
@@ -77,8 +72,6 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun setDate(todayDateAndTime: String) {
-        Log.e(TAG,"setDate $todayDateAndTime")
-//        Toast.makeText(context, "setDate $todayDateAndTime", Toast.LENGTH_LONG).show()
         binding.tvDate.text = todayDateAndTime
     }
 
@@ -99,6 +92,7 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun loadWeatherImage(weatherIcon: String?) {
+        Log.e(TAG, "view ${binding.ivWeather}")
         picasso.loadWeatherIn(weatherIcon, binding.ivWeather)
     }
 
