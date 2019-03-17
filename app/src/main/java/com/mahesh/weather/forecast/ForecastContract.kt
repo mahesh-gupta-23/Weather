@@ -12,7 +12,6 @@ class ForecastContract {
     interface View : BaseView {
         fun setDate(todayDateAndTime: String)
         fun setLocation(location: String?)
-        fun showSnackBar(string: String)
         fun setCurrentTemp(temp: Double?)
         fun toggleWeatherImageVisibility(show: Boolean)
         fun loadWeatherImage(weatherIcon: String?)

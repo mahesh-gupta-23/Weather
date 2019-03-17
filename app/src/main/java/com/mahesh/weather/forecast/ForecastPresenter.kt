@@ -73,7 +73,7 @@ class ForecastPresenter @Inject constructor(
         geocoderHelper.getAddress(latLng = latLng, onAddressFetched = {
             view()?.setLocation(getLocationToDisplay(it))
         }, onAddressError = {
-            view()?.showSnackBar(it)
+            view()?.showErrorMessage(it)
         })
     }
 

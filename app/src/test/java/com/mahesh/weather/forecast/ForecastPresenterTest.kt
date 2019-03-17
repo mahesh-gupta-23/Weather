@@ -177,7 +177,7 @@ class ForecastPresenterTest : BaseTest() {
         )
         with(LocationStubs.ON_ADDRESS_ERROR) {
             onAddressErrorCaptor.firstValue.invoke(this)
-            verify(mockView).showSnackBar(this)
+            verify(mockView).showErrorMessage(this)
         }
     }
 
@@ -208,7 +208,7 @@ class ForecastPresenterTest : BaseTest() {
                 LocationStubs.CURRENT_LAT_LNG.longitude
             )
         }
-        verify(mockView,times(2)).toggleProgressBar(false)
+        verify(mockView, times(2)).toggleProgressBar(false)
         with(DataStubs.STUB_CURRENT_WEATHER) {
             verify(mockView).setCurrentTemp(main?.temp)
             verify(mockView).toggleWeatherImageVisibility(true)

@@ -4,7 +4,6 @@ package com.mahesh.weather.forecast
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mahesh.weather.R
-import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.extensions.loadWeatherIn
 import com.mahesh.weather.app.extensions.toggleVisibility
 import com.mahesh.weather.databinding.FragmentForecastBinding
@@ -79,10 +77,6 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
         binding.tvLocation.text = location
     }
 
-    override fun showSnackBar(string: String) {
-        Snackbar.make(binding.root, string, Snackbar.LENGTH_LONG).show()
-    }
-
     override fun setCurrentTemp(temp: Double?) {
         binding.tvCurrentTemp.text = getString(R.string.temp, temp.toString())
     }
@@ -92,7 +86,6 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun loadWeatherImage(weatherIcon: String?) {
-        Log.e(TAG, "view ${binding.ivWeather}")
         picasso.loadWeatherIn(weatherIcon, binding.ivWeather)
     }
 
@@ -105,15 +98,15 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     }
 
     override fun toggleProgressBar(show: Boolean) {
-        if (show) binding.progressBar.show() else binding.progressBar.hide()
+        binding.progressBar.toggleVisibility(show)
     }
 
     override fun showNeedLocationPermissionDialogToContinue(onOk: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context).setTitle(getString(R.string.location_permission_required_title))
             .setMessage(getString(R.string.location_permission_required_content))
-            .setPositiveButton("OK") { _, _ ->
+            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
                 onOk.invoke()
-            }.setNegativeButton("CANCEL") { _, _ ->
+            }.setNegativeButton(getString(android.R.string.cancel)) { _, _ ->
                 onCancel.invoke()
             }.show()
     }
@@ -125,9 +118,9 @@ class ForecastFragment : DaggerFragment(), ForecastContract.View {
     override fun showNeedLocationToBeEnabledToContinue(onOk: () -> Unit, onCancel: () -> Unit?) {
         AlertDialog.Builder(context).setTitle(getString(R.string.location_to_be_enabled_title))
             .setMessage(getString(R.string.location_to_be_enabled_content))
-            .setPositiveButton("OK") { _, _ ->
+            .setPositiveButton(getString(android.R.string.ok)) { _, _ ->
                 onOk.invoke()
-            }.setNegativeButton("CANCEL") { _, _ ->
+            }.setNegativeButton(getString(android.R.string.cancel)) { _, _ ->
                 onCancel.invoke()
             }.show()
     }
