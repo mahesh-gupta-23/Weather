@@ -4,8 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.TestAsyncTasksManager
 import com.mahesh.weather.service.repository.WeatherRepository
-import com.mahesh.weather.test_utils.stubs.DataStubs
-import com.mahesh.weather.test_utils.stubs.LocationStubs
+import com.mahesh.weather.util.stubs.DataStubs
+import com.mahesh.weather.util.stubs.LocationStubs
 import com.mahesh.weather.util.BaseTest
 import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever
 import com.nhaarman.mockitokotlin2.mock

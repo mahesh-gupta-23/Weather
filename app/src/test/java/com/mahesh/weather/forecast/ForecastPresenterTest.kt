@@ -8,9 +8,9 @@ import com.mahesh.weather.app.coroutines.TestCoroutinesManager
 import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
-import com.mahesh.weather.test_utils.stubs.AddressStubs
-import com.mahesh.weather.test_utils.stubs.DataStubs
-import com.mahesh.weather.test_utils.stubs.LocationStubs
+import com.mahesh.weather.util.stubs.AddressStubs
+import com.mahesh.weather.util.stubs.DataStubs
+import com.mahesh.weather.util.stubs.LocationStubs
 import com.mahesh.weather.util.BaseTest
 import com.mahesh.weather.util.CustomAddress
 import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever

@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.mahesh.weather.forecast.ForecastFragment
 import com.mahesh.weather.forecast.ForecastPresenter
-import com.mahesh.weather.test_utils.stubs.DataStubs
+import com.mahesh.weather.util.stubs.DataStubs
 import com.mahesh.weather.testing.SingleFragmentActivity
 import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS

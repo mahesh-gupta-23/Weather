@@ -1,4 +1,4 @@
-package com.mahesh.weather.test_utils.stubs
+package com.mahesh.weather.util.stubs
 
 import android.Manifest
 import android.location.Location

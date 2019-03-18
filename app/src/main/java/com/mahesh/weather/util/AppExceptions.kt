@@ -30,8 +30,8 @@ class AppExceptions {
         @JvmStatic
         fun parse(throwable: Throwable): AppException {
             return when (throwable) {
-                is IOException, is SocketTimeoutException -> NoNetworkException(throwable)
                 is UnknownHostException -> ServerException(throwable)
+                is IOException, is SocketTimeoutException -> NoNetworkException(throwable)
                 is HttpException -> {
                     return when (throwable.code()) {
                         400, in 404..428 -> InternalApiError(throwable)

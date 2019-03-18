@@ -1,7 +1,10 @@
-package com.mahesh.weather.test_utils.stubs
+package com.mahesh.weather.util.stubs
 
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
 import com.mahesh.weather.service.models.*
+import okhttp3.ResponseBody
+import retrofit2.HttpException
+import retrofit2.Response
 
 class DataStubs {
     companion object {
@@ -61,5 +64,10 @@ class DataStubs {
         val ADAPTER_ENTITY: ForecastAdapterModel = with(STUB_DAY_FORECAST[0]) {
             ForecastAdapterModel(day, date, icon, maxTemperature, minTemperature)
         }
+
+        @JvmStatic
+        fun getHttpException(responseCode: Int): HttpException =
+            HttpException(Response.error<Response<*>>(responseCode, ResponseBody.create(null, "")))
+
     }
 }
