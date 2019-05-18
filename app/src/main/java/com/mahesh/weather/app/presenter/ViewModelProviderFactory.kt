@@ -1,4 +1,4 @@
-package com.mahesh.weather.util
+package com.mahesh.weather.app.presenter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

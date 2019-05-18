@@ -10,6 +10,7 @@ import com.google.android.gms.location.LocationRequest
 import com.mahesh.weather.app.coroutines.CoroutinesManager
 import com.mahesh.weather.app.coroutines.DefaultCoroutinesManager
 import com.mahesh.weather.app.coroutines.asynctaskmanager.AsyncTasksManager
+import com.mahesh.weather.app.presenter.ViewModelProviderFactory
 import com.mahesh.weather.forecast.ForecastContract
 import com.mahesh.weather.forecast.ForecastModelInteractor
 import com.mahesh.weather.forecast.ForecastPresenter
@@ -17,7 +18,6 @@ import com.mahesh.weather.helper.GeocoderHelper
 import com.mahesh.weather.helper.LocationHelper
 import com.mahesh.weather.helper.PermissionHelper
 import com.mahesh.weather.service.repository.WeatherRepository
-import com.mahesh.weather.util.ViewModelProviderFactory
 import dagger.Module
 import dagger.Provides
 

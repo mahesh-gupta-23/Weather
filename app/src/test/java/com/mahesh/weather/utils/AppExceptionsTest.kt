@@ -1,6 +1,7 @@
 package com.mahesh.weather.utils
 
-import com.mahesh.weather.util.*
+import com.mahesh.weather.helper.*
+import com.mahesh.weather.util.BaseTest
 import com.mahesh.weather.util.stubs.DataStubs
 import org.junit.Test
 import org.junit.runner.RunWith

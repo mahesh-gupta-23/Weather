@@ -1,4 +1,4 @@
-package com.mahesh.weather.util
+package com.mahesh.weather.app.extensions
 
 import android.location.Address
 
@@ -13,4 +13,12 @@ data class CustomAddress(
 )
 
 fun Address.getCustomAddress(): CustomAddress =
-    CustomAddress(adminArea, subAdminArea, locality, subLocality, postalCode, countryCode, countryName)
+    CustomAddress(
+        adminArea,
+        subAdminArea,
+        locality,
+        subLocality,
+        postalCode,
+        countryCode,
+        countryName
+    )

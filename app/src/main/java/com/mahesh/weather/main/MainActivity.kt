@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.mahesh.weather.R
+import com.mahesh.weather.app.extensions.replaceFragmentInActivity
 import com.mahesh.weather.databinding.ActivityMainBinding
 import com.mahesh.weather.forecast.FORECAST_FRAGMENT_TAG
 import com.mahesh.weather.forecast.ForecastFragment
-import com.mahesh.weather.util.replaceFragmentInActivity
 import dagger.android.support.DaggerAppCompatActivity
 
 class MainActivity : DaggerAppCompatActivity() {

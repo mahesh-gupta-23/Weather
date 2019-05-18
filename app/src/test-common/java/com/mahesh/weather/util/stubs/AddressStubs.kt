@@ -1,7 +1,7 @@
 package com.mahesh.weather.util.stubs
 
 import android.location.Address
-import com.mahesh.weather.util.CustomAddress
+import com.mahesh.weather.app.extensions.CustomAddress
 import java.util.*
 
 class AddressStubs {

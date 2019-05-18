@@ -1,4 +1,4 @@
-package com.mahesh.weather.util
+package com.mahesh.weather.app.extensions
 
 
 import androidx.annotation.IdRes

@@ -11,8 +11,6 @@ dependencies {
     implementation deps.playServices.location
 
     // Testing dependencies
-    implementation 'androidx.fragment:fragment:1.1.0-alpha04'
-
     androidTestImplementation deps.test.runner
     androidTestImplementation deps.test.rules
     androidTestImplementation deps.test.junitExt

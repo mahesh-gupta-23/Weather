@@ -7,15 +7,15 @@ import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import com.mahesh.weather.app.presenter.ViewModelProviderFactory
 import com.mahesh.weather.forecast.ForecastFragment
 import com.mahesh.weather.forecast.ForecastPresenter
-import com.mahesh.weather.util.stubs.DataStubs
 import com.mahesh.weather.testing.SingleFragmentActivity
 import com.mahesh.weather.util.KotlinTestUtils.Companion.whenever
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
 import com.mahesh.weather.util.REQUEST_PERMISSION_CODE
 import com.mahesh.weather.util.RecyclerViewMatcher
-import com.mahesh.weather.util.ViewModelProviderFactory
+import com.mahesh.weather.util.stubs.DataStubs
 import com.squareup.picasso.Picasso
 import org.hamcrest.Matchers.not
 import org.junit.Before

@@ -4,16 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
-import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.mahesh.weather.app.TAG
+import com.mahesh.weather.app.extensions.LatLng
+import com.mahesh.weather.app.extensions.getLatLng
 import com.mahesh.weather.testing.OpenForTesting
-import com.mahesh.weather.util.LatLng
 import com.mahesh.weather.util.REQUEST_CHECK_SETTINGS
-import com.mahesh.weather.util.getLatLng
 import javax.inject.Inject
 
 @OpenForTesting
@@ -96,8 +94,6 @@ class LocationHelper @Inject constructor(
      * Handles the activity results
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.d(TAG, "onActivityResult requestCode $requestCode")
-        Log.d(TAG, "onActivityResult resultCode $resultCode")
         when (requestCode) {
             REQUEST_CHECK_SETTINGS -> when (resultCode) {
                 Activity.RESULT_OK ->

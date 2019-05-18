@@ -7,18 +7,14 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.mahesh.weather.app.TAG
 import com.mahesh.weather.app.coroutines.CoroutinesManager
+import com.mahesh.weather.app.extensions.CustomAddress
+import com.mahesh.weather.app.extensions.LatLng
 import com.mahesh.weather.app.presenter.BasePresenterImpl
 import com.mahesh.weather.forecast.adapter.ForecastAdapterModel
-import com.mahesh.weather.helper.GeocoderHelper
-import com.mahesh.weather.helper.LocationHelper
-import com.mahesh.weather.helper.PermissionHelper
+import com.mahesh.weather.helper.*
 import com.mahesh.weather.service.models.CurrentWeather
 import com.mahesh.weather.service.models.DayForecast
 import com.mahesh.weather.testing.OpenForTesting
-import com.mahesh.weather.util.AppExceptions
-import com.mahesh.weather.util.CustomAddress
-import com.mahesh.weather.util.FatalException
-import com.mahesh.weather.util.LatLng
 import java.util.*
 import javax.inject.Inject
 

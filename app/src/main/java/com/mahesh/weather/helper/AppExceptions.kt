@@ -1,4 +1,4 @@
-package com.mahesh.weather.util
+package com.mahesh.weather.helper
 
 import retrofit2.HttpException
 import java.io.IOException
@@ -31,7 +31,9 @@ class AppExceptions {
         fun parse(throwable: Throwable): AppException {
             return when (throwable) {
                 is UnknownHostException -> ServerException(throwable)
-                is IOException, is SocketTimeoutException -> NoNetworkException(throwable)
+                is IOException, is SocketTimeoutException -> NoNetworkException(
+                    throwable
+                )
                 is HttpException -> {
                     return when (throwable.code()) {
                         400, in 404..428 -> InternalApiError(throwable)
