@@ -42,6 +42,6 @@ class GeocoderHelper @Inject constructor(
             with(latLng) {
                 geocoder.getFromLocation(latitude, longitude, 1)
             }
-        }
+        }.orEmpty()
     }
 }

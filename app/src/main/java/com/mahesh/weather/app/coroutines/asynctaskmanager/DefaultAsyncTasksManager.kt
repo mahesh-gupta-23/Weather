@@ -11,7 +11,6 @@ open class DefaultAsyncTasksManager : AsyncTasksManager {
     private val deferredObjects: MutableList<Deferred<*>> = mutableListOf()
 
     @CallSuper
-    @Synchronized
     override suspend fun <T> async(block: suspend CoroutineScope.() -> T): Deferred<T> {
         val deferred: Deferred<T> = CoroutineScope(Dispatchers.IO).async { block() }
         deferredObjects.add(deferred)
@@ -20,7 +19,6 @@ open class DefaultAsyncTasksManager : AsyncTasksManager {
     }
 
     @CallSuper
-    @Synchronized
     override suspend fun <T> asyncAwait(block: suspend CoroutineScope.() -> T): T {
         return async(block).await()
     }

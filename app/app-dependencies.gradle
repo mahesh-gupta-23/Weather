@@ -6,6 +6,7 @@ dependencies {
     implementation deps.core.recyclerView
     implementation deps.core.material
     implementation deps.core.kotlinStdLib
+    implementation deps.core.ktx
 
     //Location
     implementation deps.playServices.location

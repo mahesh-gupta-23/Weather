@@ -1,8 +1,10 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-allopen'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'kotlin-android'
+    id 'kotlin-allopen'
+}
 
 allOpen {
     //allows mocking for classes w/o directly opening them for release builds
@@ -11,9 +13,7 @@ allOpen {
 
 android {
     compileSdkVersion deps.build.compileSdkVersion
-    dataBinding {
-        enabled = true
-    }
+    namespace 'com.mahesh.weather'
     defaultConfig {
         applicationId "com.mahesh.weather"
         minSdkVersion deps.build.minSdkVersion
@@ -36,6 +36,9 @@ android {
             buildConfigField "String", "WEATHER_API_APP_ID", "\"b707c85fb1ca3d79f0e93158c156c56a\""
         }
     }
+    buildFeatures {
+        dataBinding = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -47,6 +50,9 @@ android {
     sourceSets {
         androidTest.java.srcDirs += "src/test-common/java"
         test.java.srcDirs += "src/test-common/java"
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 }
 
