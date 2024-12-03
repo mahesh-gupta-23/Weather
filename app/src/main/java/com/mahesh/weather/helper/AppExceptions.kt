@@ -36,7 +36,9 @@ class AppExceptions {
                 )
                 is HttpException -> {
                     return when (throwable.code()) {
-                        400, in 404..428 -> InternalApiError(throwable)
+                        400, in 404..428 -> {
+                            InternalApiError(throwable)
+                        }
                         in 429..599 -> ServerException(throwable)
                         else -> Unknown(throwable)
                     }

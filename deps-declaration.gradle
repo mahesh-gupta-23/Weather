@@ -19,7 +19,7 @@ def versions = [
         material                 : "1.0.0",
         recyclerView             : "1.0.0",
         picasso                  : "2.71828",
-        chuck                    : "1.1.0",
+        chucker                  : "3.5.2",
         mockitoKotlin            : "2.1.0",
         mockitoAndroid           : "2.25.0"
 ]
@@ -28,7 +28,7 @@ def deps = [:]
 
 def build = [
         compileSdkVersion        : 34,
-        minSdkVersion            : 19,
+        minSdkVersion            : 24,
         targetSdkVersion         : 34,
         androidGradlePlugin      : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
         kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
@@ -93,10 +93,10 @@ deps.coroutines = coroutines
 
 deps.picasso = "com.squareup.picasso:picasso:$versions.picasso"
 
-def chuck = [
-        debug  : "com.readystatesoftware.chuck:library:$versions.chuck",
-        release: "com.readystatesoftware.chuck:library-no-op:$versions.chuck"
+def chucker = [
+        debug  : "com.github.ChuckerTeam.Chucker:library:$versions.chucker",
+        release: "com.github.ChuckerTeam.Chucker:library-no-op:$versions.chucker"
 ]
-deps.chuck = chuck
+deps.chucker = chucker
 
 ext.deps = deps

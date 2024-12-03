@@ -43,7 +43,7 @@ dependencies {
     //Picasso
     implementation deps.picasso
 
-    //Chuck
-    debugImplementation deps.chuck.debug
-    releaseImplementation deps.chuck.release
+    //Chucker
+    debugImplementation deps.chucker.debug
+    releaseImplementation deps.chucker.release
 }

@@ -46,7 +46,7 @@ class ForecastModelInteractor @Inject constructor(
             val result: MutableList<DayForecast> = mutableListOf()
             if (forecast?.list != null && forecast.list.isNotEmpty()) {
                 // Group the forecasts by day
-                getForecastsGroupedByDay(forecast.list).forEach { _, dayForecasts ->
+                getForecastsGroupedByDay(forecast.list).forEach { (_, dayForecasts) ->
                     if (dayForecasts.isNotEmpty()) {
                         // Use the third weather condition as representative for the whole day
                         // and if not available, then use the first one.
